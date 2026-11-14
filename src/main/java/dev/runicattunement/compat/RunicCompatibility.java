@@ -1,27 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  com.google.gson.JsonArray
- *  com.google.gson.JsonElement
- *  com.google.gson.JsonObject
- *  com.google.gson.JsonParser
- *  net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
- *  net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
- *  net.fabricmc.fabric.api.resource.ResourceManagerHelper
- *  net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
- *  net.minecraft.class_1799
- *  net.minecraft.class_1887
- *  net.minecraft.class_2540
- *  net.minecraft.class_2960
- *  net.minecraft.class_3264
- *  net.minecraft.class_3298
- *  net.minecraft.class_3300
- *  net.minecraft.class_5321
- *  net.minecraft.class_6862
- *  net.minecraft.class_7923
- *  net.minecraft.class_7924
- */
 package dev.runicattunement.compat;
 
 import com.google.gson.JsonArray;
@@ -30,15 +6,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.runicattunement.RunicAttunement;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.ServerStopped;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.class_1799;
@@ -48,200 +24,226 @@ import net.minecraft.class_2960;
 import net.minecraft.class_3264;
 import net.minecraft.class_3298;
 import net.minecraft.class_3300;
-import net.minecraft.class_5321;
 import net.minecraft.class_6862;
 import net.minecraft.class_7923;
 import net.minecraft.class_7924;
 
 public final class RunicCompatibility {
-    private static final String PREFIX = "runic_attunement/compatibility";
-    private static final int MAX_SYNC_BYTES = 131072;
-    private static volatile Map<String, Rule> serverRules = Map.of();
-    private static volatile Map<String, Rule> clientRules = Map.of();
-    private static volatile boolean serverInitialized = false;
+   private static final String PREFIX = "runic_attunement/compatibility";
+   private static final int MAX_SYNC_BYTES = 131072;
+   private static volatile Map<String, RunicCompatibility.Rule> serverRules = Map.of();
+   private static volatile Map<String, RunicCompatibility.Rule> clientRules = Map.of();
+   private static volatile boolean serverInitialized = false;
 
-    private RunicCompatibility() {
-    }
+   private RunicCompatibility() {
+   }
 
-    public static void initialize() {
-        ResourceManagerHelper.get((class_3264)class_3264.field_14190).registerReloadListener((IdentifiableResourceReloadListener)new SimpleSynchronousResourceReloadListener(){
+   public static void initialize() {
+      ResourceManagerHelper.get(class_3264.field_14190).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
+         public class_2960 getFabricId() {
+            return RunicAttunement.id("enchantment_compatibility");
+         }
 
-            public class_2960 getFabricId() {
-                return RunicAttunement.id("enchantment_compatibility");
+         public void method_14491(class_3300 var1) {
+            RunicCompatibility.reload(var1);
+         }
+      });
+      ServerLifecycleEvents.SERVER_STOPPED.register((ServerStopped)var0 -> {
+         serverRules = Map.of();
+         serverInitialized = false;
+      });
+   }
+
+   private static synchronized void reload(class_3300 var0) {
+      LinkedHashMap var1 = new LinkedHashMap();
+      int var2 = 0;
+
+      for (Entry var4 : var0.method_14488("runic_attunement/compatibility", var0x -> var0x.method_12832().endsWith(".json")).entrySet()) {
+         try (InputStreamReader var5 = new InputStreamReader(((class_3298)var4.getValue()).method_14482(), StandardCharsets.UTF_8)) {
+            JsonObject var6 = JsonParser.parseReader(var5).getAsJsonObject();
+            RunicCompatibility.Rule var7 = parse(var6);
+            if (var1.putIfAbsent(var7.enchantment(), var7) != null) {
+               RunicAttunement.LOGGER.warn("Runic compatibility: duplicate rule for {} at {}; keeping first", new Object[]{var7.enchantment(), var4.getKey()});
+               var2++;
             }
+         } catch (Exception var10) {
+            var2++;
+            RunicAttunement.LOGGER.warn("Runic compatibility: invalid rule {}: {}", new Object[]{var4.getKey(), var10.toString()});
+         }
+      }
 
-            public void method_14491(class_3300 class_33002) {
-                RunicCompatibility.reload(class_33002);
-            }
-        });
-        ServerLifecycleEvents.SERVER_STOPPED.register(class_31762 -> {
-            serverRules = Map.of();
-            serverInitialized = false;
-        });
-    }
+      serverRules = Map.copyOf(var1);
+      serverInitialized = true;
+      RunicAttunement.LOGGER.info("Runic compatibility loaded {} override(s), {} rejected; native rules remain the fallback", new Object[]{var1.size(), var2});
+   }
 
-    private static synchronized void reload(class_3300 class_33002) {
-        LinkedHashMap<String, Rule> linkedHashMap = new LinkedHashMap<String, Rule>();
-        int n = 0;
-        for (Map.Entry entry : class_33002.method_14488(PREFIX, class_29602 -> class_29602.method_12832().endsWith(".json")).entrySet()) {
-            try (InputStreamReader inputStreamReader = new InputStreamReader(((class_3298)entry.getValue()).method_14482(), StandardCharsets.UTF_8);){
-                JsonObject jsonObject = JsonParser.parseReader((Reader)inputStreamReader).getAsJsonObject();
-                Rule rule = RunicCompatibility.parse(jsonObject);
-                if (linkedHashMap.putIfAbsent(rule.enchantment(), rule) == null) continue;
-                RunicAttunement.LOGGER.warn("Runic compatibility: duplicate rule for {} at {}; keeping first", new Object[]{rule.enchantment(), entry.getKey()});
-                ++n;
-            }
-            catch (Exception exception) {
-                ++n;
-                RunicAttunement.LOGGER.warn("Runic compatibility: invalid rule {}: {}", new Object[]{entry.getKey(), exception.toString()});
-            }
-        }
-        serverRules = Map.copyOf(linkedHashMap);
-        serverInitialized = true;
-        RunicAttunement.LOGGER.info("Runic compatibility loaded {} override(s), {} rejected; native rules remain the fallback", new Object[]{linkedHashMap.size(), n});
-    }
-
-    private static Rule parse(JsonObject jsonObject) {
-        String string;
-        if (jsonObject == null || !jsonObject.has("enchantment")) {
-            throw new IllegalArgumentException("Missing enchantment ID");
-        }
-        String string2 = jsonObject.get("enchantment").getAsString();
-        RunicCompatibility.validateId(string2);
-        String string3 = string = jsonObject.has("mode") ? jsonObject.get("mode").getAsString().toLowerCase(Locale.ROOT) : "extend";
-        if (!string.equals("extend") && !string.equals("replace")) {
+   private static RunicCompatibility.Rule parse(JsonObject var0) {
+      if (var0 != null && var0.has("enchantment")) {
+         String var1 = var0.get("enchantment").getAsString();
+         validateId(var1);
+         String var2 = var0.has("mode") ? var0.get("mode").getAsString().toLowerCase(Locale.ROOT) : "extend";
+         if (!var2.equals("extend") && !var2.equals("replace")) {
             throw new IllegalArgumentException("mode must be extend or replace");
-        }
-        List<String> list = RunicCompatibility.parseList(jsonObject, "allow");
-        List<String> list2 = RunicCompatibility.parseList(jsonObject, "deny");
-        return new Rule(string2, string.equals("replace"), RunicCompatibility.selectors(list), RunicCompatibility.selectors(list2), List.copyOf(list), List.copyOf(list2));
-    }
+         }
 
-    private static List<String> parseList(JsonObject jsonObject, String string) {
-        ArrayList<String> arrayList = new ArrayList<String>();
-        if (!jsonObject.has(string)) {
-            return arrayList;
-        }
-        JsonElement jsonElement = jsonObject.get(string);
-        if (!jsonElement.isJsonArray()) {
-            throw new IllegalArgumentException(string + " must be a JSON array");
-        }
-        JsonArray jsonArray = jsonElement.getAsJsonArray();
-        if (jsonArray.size() > 1024) {
-            throw new IllegalArgumentException(string + " exceeds 1024 entries");
-        }
-        for (JsonElement jsonElement2 : jsonArray) {
-            String string2 = jsonElement2.getAsString();
-            RunicCompatibility.validateId(string2.startsWith("#") ? string2.substring(1) : string2);
-            arrayList.add(string2);
-        }
-        return arrayList;
-    }
+         List var3 = parseList(var0, "allow");
+         List var4 = parseList(var0, "deny");
+         return new RunicCompatibility.Rule(var1, var2.equals("replace"), selectors(var3), selectors(var4), List.copyOf(var3), List.copyOf(var4));
+      } else {
+         throw new IllegalArgumentException("Missing enchantment ID");
+      }
+   }
 
-    private static void validateId(String string) {
-        if (string.length() > 256 || !string.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) {
-            throw new IllegalArgumentException("Invalid namespaced identifier: " + string);
-        }
-    }
+   private static List<String> parseList(JsonObject var0, String var1) {
+      ArrayList var2 = new ArrayList();
+      if (!var0.has(var1)) {
+         return var2;
+      }
 
-    private static List<Selector> selectors(List<String> list) {
-        ArrayList<Selector> arrayList = new ArrayList<Selector>();
-        for (String string : list) {
-            if (string.startsWith("#")) {
-                class_6862 class_68622 = class_6862.method_40092((class_5321)class_7924.field_41197, (class_2960)new class_2960(string.substring(1)));
-                arrayList.add(new Selector(string, null, class_68622));
-                continue;
-            }
-            arrayList.add(new Selector(string, string, null));
-        }
-        return List.copyOf(arrayList);
-    }
+      JsonElement var3 = var0.get(var1);
+      if (!var3.isJsonArray()) {
+         throw new IllegalArgumentException(var1 + " must be a JSON array");
+      }
 
-    public static boolean accepts(class_1887 class_18872, class_1799 class_17992) {
-        boolean bl = class_18872.method_8192(class_17992);
-        class_2960 class_29602 = class_7923.field_41176.method_10221((Object)class_18872);
-        if (class_29602 == null) {
-            return bl;
-        }
-        Rule rule = (serverInitialized ? serverRules : clientRules).get(class_29602.toString());
-        if (rule == null) {
-            return bl;
-        }
-        class_2960 class_29603 = class_7923.field_41178.method_10221((Object)class_17992.method_7909());
-        return rule.accepts(bl, class_17992, class_29603 == null ? "" : class_29603.toString());
-    }
+      JsonArray var4 = var3.getAsJsonArray();
+      if (var4.size() > 1024) {
+         throw new IllegalArgumentException(var1 + " exceeds 1024 entries");
+      }
 
-    public static void writeSync(class_2540 class_25402) {
-        JsonArray jsonArray = new JsonArray();
-        for (Rule rule : serverRules.values()) {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("enchantment", rule.enchantment());
-            jsonObject.addProperty("mode", rule.replace() ? "replace" : "extend");
-            JsonArray jsonArray2 = new JsonArray();
-            for (String string : rule.rawAllow()) {
-                jsonArray2.add(string);
-            }
-            JsonArray jsonArray3 = new JsonArray();
-            for (String string : rule.rawDeny()) {
-                jsonArray3.add(string);
-            }
-            jsonObject.add("allow", (JsonElement)jsonArray2);
-            jsonObject.add("deny", (JsonElement)jsonArray3);
-            jsonArray.add((JsonElement)jsonObject);
-        }
-        Object object = jsonArray.toString().getBytes(StandardCharsets.UTF_8);
-        if (((Object)object).length > 131072) {
-            RunicAttunement.LOGGER.warn("Runic compatibility sync is too large ({} bytes); sending no overrides", new Object[]{((Object)object).length});
-            object = "[]".getBytes(StandardCharsets.UTF_8);
-        }
-        class_25402.method_10804(((Object)object).length);
-        class_25402.writeBytes((byte[])object);
-    }
+      for (JsonElement var6 : var4) {
+         String var7 = var6.getAsString();
+         validateId(var7.startsWith("#") ? var7.substring(1) : var7);
+         var2.add(var7);
+      }
 
-    public static void readSync(class_2540 class_25402) {
-        int n = class_25402.method_10816();
-        if (n < 0 || n > 131072) {
-            throw new IllegalArgumentException("Runic compatibility sync exceeds maximum size");
-        }
-        byte[] byArray = new byte[n];
-        class_25402.readBytes(byArray);
-        LinkedHashMap<String, Rule> linkedHashMap = new LinkedHashMap<String, Rule>();
-        JsonElement jsonElement = JsonParser.parseString((String)new String(byArray, StandardCharsets.UTF_8));
-        if (!jsonElement.isJsonArray()) {
+      return var2;
+   }
+
+   private static void validateId(String var0) {
+      if (var0.length() > 256 || !var0.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) {
+         throw new IllegalArgumentException("Invalid namespaced identifier: " + var0);
+      }
+   }
+
+   private static List<RunicCompatibility.Selector> selectors(List<String> var0) {
+      ArrayList var1 = new ArrayList();
+
+      for (String var3 : var0) {
+         if (var3.startsWith("#")) {
+            class_6862 var4 = class_6862.method_40092(class_7924.field_41197, new class_2960(var3.substring(1)));
+            var1.add(new RunicCompatibility.Selector(var3, null, var4));
+         } else {
+            var1.add(new RunicCompatibility.Selector(var3, var3, null));
+         }
+      }
+
+      return List.copyOf(var1);
+   }
+
+   public static boolean accepts(class_1887 var0, class_1799 var1) {
+      boolean var2 = var0.method_8192(var1);
+      class_2960 var3 = class_7923.field_41176.method_10221(var0);
+      if (var3 == null) {
+         return var2;
+      }
+
+      RunicCompatibility.Rule var4 = (serverInitialized ? serverRules : clientRules).get(var3.toString());
+      if (var4 == null) {
+         return var2;
+      }
+
+      class_2960 var5 = class_7923.field_41178.method_10221(var1.method_7909());
+      return var4.accepts(var2, var1, var5 == null ? "" : var5.toString());
+   }
+
+   public static void writeSync(class_2540 var0) {
+      JsonArray var1 = new JsonArray();
+
+      for (RunicCompatibility.Rule var3 : serverRules.values()) {
+         JsonObject var4 = new JsonObject();
+         var4.addProperty("enchantment", var3.enchantment());
+         var4.addProperty("mode", var3.replace() ? "replace" : "extend");
+         JsonArray var5 = new JsonArray();
+
+         for (String var7 : var3.rawAllow()) {
+            var5.add(var7);
+         }
+
+         JsonArray var10 = new JsonArray();
+
+         for (String var8 : var3.rawDeny()) {
+            var10.add(var8);
+         }
+
+         var4.add("allow", var5);
+         var4.add("deny", var10);
+         var1.add(var4);
+      }
+
+      byte[] var9 = var1.toString().getBytes(StandardCharsets.UTF_8);
+      if (var9.length > 131072) {
+         RunicAttunement.LOGGER.warn("Runic compatibility sync is too large ({} bytes); sending no overrides", new Object[]{var9.length});
+         var9 = "[]".getBytes(StandardCharsets.UTF_8);
+      }
+
+      var0.method_10804(var9.length);
+      var0.writeBytes(var9);
+   }
+
+   public static void readSync(class_2540 var0) {
+      int var1 = var0.method_10816();
+      if (var1 >= 0 && var1 <= 131072) {
+         byte[] var2 = new byte[var1];
+         var0.readBytes(var2);
+         LinkedHashMap var3 = new LinkedHashMap();
+         JsonElement var4 = JsonParser.parseString(new String(var2, StandardCharsets.UTF_8));
+         if (!var4.isJsonArray()) {
             throw new IllegalArgumentException("Invalid compatibility sync JSON");
-        }
-        for (JsonElement jsonElement2 : jsonElement.getAsJsonArray()) {
-            Rule rule = RunicCompatibility.parse(jsonElement2.getAsJsonObject());
-            if (linkedHashMap.putIfAbsent(rule.enchantment(), rule) == null) continue;
-            throw new IllegalArgumentException("Duplicate synchronized enchantment ID");
-        }
-        clientRules = Map.copyOf(linkedHashMap);
-    }
+         }
 
-    private record Rule(String enchantment, boolean replace, List<Selector> allow, List<Selector> deny, List<String> rawAllow, List<String> rawDeny) {
-        boolean matches(List<Selector> list, class_1799 class_17992, String string) {
-            for (Selector selector : list) {
-                if (!selector.matches(class_17992, string)) continue;
-                return true;
+         for (JsonElement var6 : var4.getAsJsonArray()) {
+            RunicCompatibility.Rule var7 = parse(var6.getAsJsonObject());
+            if (var3.putIfAbsent(var7.enchantment(), var7) != null) {
+               throw new IllegalArgumentException("Duplicate synchronized enchantment ID");
             }
+         }
+
+         clientRules = Map.copyOf(var3);
+      } else {
+         throw new IllegalArgumentException("Runic compatibility sync exceeds maximum size");
+      }
+   }
+
+   private record Rule(
+      String enchantment,
+      boolean replace,
+      List<RunicCompatibility.Selector> allow,
+      List<RunicCompatibility.Selector> deny,
+      List<String> rawAllow,
+      List<String> rawDeny
+   ) {
+      boolean matches(List<RunicCompatibility.Selector> var1, class_1799 var2, String var3) {
+         for (RunicCompatibility.Selector var5 : var1) {
+            if (var5.matches(var2, var3)) {
+               return true;
+            }
+         }
+
+         return false;
+      }
+
+      boolean accepts(boolean var1, class_1799 var2, String var3) {
+         if (this.matches(this.deny, var2, var3)) {
             return false;
-        }
+         } else {
+            return this.replace ? this.matches(this.allow, var2, var3) : var1 || this.matches(this.allow, var2, var3);
+         }
+      }
+   }
 
-        boolean accepts(boolean bl, class_1799 class_17992, String string) {
-            if (this.matches(this.deny, class_17992, string)) {
-                return false;
-            }
-            if (this.replace) {
-                return this.matches(this.allow, class_17992, string);
-            }
-            return bl || this.matches(this.allow, class_17992, string);
-        }
-    }
-
-    private record Selector(String source, String item, class_6862 tag) {
-        boolean matches(class_1799 class_17992, String string) {
-            return this.tag != null ? class_17992.method_31573(this.tag) : this.item.equals(string);
-        }
-    }
+   private record Selector(String source, String item, class_6862 tag) {
+      boolean matches(class_1799 var1, String var2) {
+         return this.tag != null ? var1.method_31573(this.tag) : this.item.equals(var2);
+      }
+   }
 }
-

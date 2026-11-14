@@ -39,15 +39,15 @@ See the supplied JSON files in `src/main/resources/data/runic_attunement/` for w
 
 ## Source provenance and build status
 
-This repository is the publicly viewable **1.3.8 source-recovery snapshot**, reconstructed from the officially published CurseForge JAR using CFR 0.152. The historical private GitHub repository did not contain the original 1.3.8 hand-written Java source.
+This repository is the publicly viewable **1.3.8 source-recovery snapshot**, reconstructed from the SHA-256-verified CurseForge production JAR using **Vineflower 1.12.0**. The earlier CFR reconstruction did not compile and has been replaced. The historical private GitHub repository did not contain the original 1.3.8 hand-written Java source.
 
 **Verified production release:** `Runic-Attunement-1.3.8-Fabric-1.20.1.jar`, CurseForge project `1737183`, file `9595336`, published **13 November 2026**.
 
 **Verified JAR SHA-256:** `0661dd74284e329389faaf20613f649d7ce06556da5bdf0d60def60e055e0f12`
 
-All release assets, data, mixin configurations and recovered Java files are included. The Java currently uses intermediary Minecraft class/method names, and some decompiler-generated declarations need further repair. **The reconstructed Gradle project is not yet a verified clean build, and any rebuilt JAR must not be represented as identical to the production release.** Use the original CurseForge binary for gameplay.
+All release assets, data, mixin configurations and recovered Java files are included. The Java uses intermediary Minecraft class/method names, with decompiler-generated type and bridge errors corrected. **The recovered source now passes a clean Java 17 Gradle build.** The rebuilt JAR has all 86 original compiled class paths and preserves the production Mixin reference map, but it is **not byte-for-byte identical or proven in-game equivalent**. Continue using the original CurseForge binary for normal gameplay until the experimental rebuild passes regression testing.
 
-The `build.gradle` is a recovery toolchain based on Java 17, Gradle 8.8, Fabric Loom 1.7.4 and public dependency repositories. Source compilation and in-game regression remain separate validation tasks.
+The `build.gradle` is a recovery toolchain based on Java 17, Gradle 8.8, Fabric Loom 1.7.4 and public dependency repositories. The build workflow checks compilation and packaging. Runtime tests must separately cover table opening, reforge, transmutation, unravel, enchantment eligibility, client/server packets, and Jade integration. Rebuilds are experimental and are not official 1.3.8 updates.
 
 ## License
 

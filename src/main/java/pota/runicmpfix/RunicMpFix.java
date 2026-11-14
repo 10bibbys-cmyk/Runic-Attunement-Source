@@ -1,13 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.fabricmc.api.ModInitializer
- *  net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
- *  net.minecraft.class_2561
- *  net.minecraft.class_2960
- *  net.minecraft.class_3222
- */
 package pota.runicmpfix;
 
 import dev.runicattunement.unravel.RunicUnravelRuntime;
@@ -22,176 +12,197 @@ import net.minecraft.class_2561;
 import net.minecraft.class_2960;
 import net.minecraft.class_3222;
 
-public final class RunicMpFix
-implements ModInitializer {
-    public static final class_2960 ACTION = new class_2960("pota_runic_mp_fix", "ui_action");
-    public static final int ACTION_ATTUNE = 0;
-    public static final int ACTION_TRANSMUTE = 1;
-    private static final int MAX_IDS = 64;
+public final class RunicMpFix implements ModInitializer {
+   public static final class_2960 ACTION = new class_2960("pota_runic_mp_fix", "ui_action");
+   public static final int ACTION_ATTUNE = 0;
+   public static final int ACTION_TRANSMUTE = 1;
+   private static final int MAX_IDS = 64;
 
-    public void onInitialize() {
-        ServerPlayNetworking.registerGlobalReceiver((class_2960)ACTION, (minecraftServer, class_32222, class_32442, class_25402, packetSender) -> {
-            String[] stringArray;
-            String[] stringArray2;
-            int n;
-            int n2 = PacketCodec.readInt(class_25402);
-            if (n2 == 0) {
-                n = PacketCodec.readInt(class_25402);
-                stringArray2 = null;
-                stringArray = null;
-            } else if (n2 == 1) {
-                int n3;
-                n = -1;
-                int n4 = RunicMpFix.boundedCount(PacketCodec.readInt(class_25402));
-                if (n4 < 0) {
-                    return;
-                }
-                stringArray2 = new String[n4];
-                for (n3 = 0; n3 < n4; ++n3) {
-                    stringArray2[n3] = PacketCodec.readString(class_25402);
-                }
-                n3 = RunicMpFix.boundedCount(PacketCodec.readInt(class_25402));
-                if (n3 < 0) {
-                    return;
-                }
-                stringArray = new String[n3];
-                for (int i = 0; i < n3; ++i) {
-                    stringArray[i] = PacketCodec.readString(class_25402);
-                }
-            } else {
-                return;
+   public void onInitialize() {
+      ServerPlayNetworking.registerGlobalReceiver(ACTION, (var0, var1, var2, var3, var4) -> {
+         int var5 = RunicMpFix.PacketCodec.readInt(var3);
+         int var6;
+         String[] var7;
+         String[] var8;
+         if (var5 == 0) {
+            var6 = RunicMpFix.PacketCodec.readInt(var3);
+            var7 = null;
+            var8 = null;
+         } else {
+            if (var5 != 1) {
+               return;
             }
-            minecraftServer.execute(() -> RunicMpFix.process(class_32222, n2, n, stringArray2, stringArray));
-        });
-        System.out.println("[Runic Attunement] 1.3.8 initialised (multiplayer action packets enabled)");
-    }
 
-    private static int boundedCount(int n) {
-        return n >= 0 && n <= 64 ? n : -1;
-    }
-
-    private static void process(class_3222 class_32222, int n, int n2, String[] stringArray, String[] stringArray2) {
-        if (RunicUnravelRuntime.handleMpAction(class_32222, n, n2)) {
-            return;
-        }
-        try {
-            Object object = RunicMpFix.findRunicHandler(class_32222);
-            if (object == null) {
-                System.err.println("[Runic Attunement] Rejected action: player does not have a Runic Attunement screen open.");
-                RunicMpFix.feedback(class_32222, "Runic action rejected: the server no longer has this Runic screen open.");
-                return;
+            var6 = -1;
+            int var9 = boundedCount(RunicMpFix.PacketCodec.readInt(var3));
+            if (var9 < 0) {
+               return;
             }
-            if (n == 0) {
-                Method method = object.getClass().getMethod("getAttunedEnchantments", new Class[0]);
-                List list = (List)method.invoke(object, new Object[0]);
-                if (n2 < 0 || n2 >= list.size()) {
-                    System.err.println("[Runic Attunement] Rejected Attunement: stale/invalid enchantment index " + n2 + ".");
-                    RunicMpFix.feedback(class_32222, "Runic Attunement rejected: stale enchantment selection. Reopen the table.");
-                    return;
-                }
-                Object e = list.get(n2);
-                Method method2 = object.getClass().getDeclaredMethod("tryInscribe", class_3222.class, class_2960.class);
-                method2.setAccessible(true);
-                boolean bl = Boolean.TRUE.equals(method2.invoke(object, class_32222, e));
-                if (!bl) {
-                    System.err.println("[Runic Attunement] Server rejected Attunement for " + String.valueOf(e) + ". Check materials, raw XP, compatibility, shelf state and table range.");
-                    RunicMpFix.feedback(class_32222, "Runic Attunement rejected by server. Check materials, raw XP, compatibility and shelf/table state.");
-                }
-                return;
+
+            var7 = new String[var9];
+
+            for (int var10 = 0; var10 < var9; var10++) {
+               var7[var10] = RunicMpFix.PacketCodec.readString(var3);
             }
-            Set<Object> set = RunicMpFix.getSetField(object, "selectedNormal");
-            Set<Object> set2 = RunicMpFix.getSetField(object, "removeCurses");
-            set.clear();
-            set2.clear();
-            for (String string : stringArray) {
-                set.add(RunicMpFix.parseIdentifier(string));
+
+            int var12 = boundedCount(RunicMpFix.PacketCodec.readInt(var3));
+            if (var12 < 0) {
+               return;
             }
-            for (String string : stringArray2) {
-                set2.add(RunicMpFix.parseIdentifier(string));
+
+            var8 = new String[var12];
+
+            for (int var11 = 0; var11 < var12; var11++) {
+               var8[var11] = RunicMpFix.PacketCodec.readString(var3);
             }
-            Method method = object.getClass().getDeclaredMethod("tryTransmute", class_3222.class);
-            method.setAccessible(true);
-            int n3 = Boolean.TRUE.equals(method.invoke(object, class_32222)) ? 1 : 0;
-            if (n3 == 0) {
-                System.err.println("[Runic Attunement] Server rejected Transmutation. Selected=" + set.size() + ", removeCurses=" + set2.size() + ". Check source/target compatibility, materials, raw XP and screen/table state.");
-                RunicMpFix.feedback(class_32222, "Runic Transmutation rejected by server. Check source/target compatibility, materials and raw XP.");
+         }
+
+         var0.execute(() -> process(var1, var5, var6, var7, var8));
+      });
+      System.out.println("[Runic Attunement] 1.3.8 initialised (multiplayer action packets enabled)");
+   }
+
+   private static int boundedCount(int var0) {
+      return var0 >= 0 && var0 <= 64 ? var0 : -1;
+   }
+
+   private static void process(class_3222 var0, int var1, int var2, String[] var3, String[] var4) {
+      if (!RunicUnravelRuntime.handleMpAction(var0, var1, var2)) {
+         try {
+            Object var5 = findRunicHandler(var0);
+            if (var5 == null) {
+               System.err.println("[Runic Attunement] Rejected action: player does not have a Runic Attunement screen open.");
+               feedback(var0, "Runic action rejected: the server no longer has this Runic screen open.");
+               return;
             }
-        }
-        catch (Throwable throwable) {
-            System.err.println("[Runic Attunement] Action processing failed: " + String.valueOf(throwable));
-            throwable.printStackTrace();
-            RunicMpFix.feedback(class_32222, "Runic multiplayer action failed internally. Check latest.log for [Runic Attunement].");
-        }
-    }
 
-    private static void feedback(class_3222 class_32222, String string) {
-        try {
-            class_32222.method_7353((class_2561)class_2561.method_43470((String)string), true);
-        }
-        catch (Throwable throwable) {
-            // empty catch block
-        }
-    }
+            if (var1 == 0) {
+               Method var13 = var5.getClass().getMethod("getAttunedEnchantments");
+               List var14 = (List)var13.invoke(var5);
+               if (var2 >= 0 && var2 < var14.size()) {
+                  Object var17 = var14.get(var2);
+                  Method var20 = var5.getClass().getDeclaredMethod("tryInscribe", class_3222.class, class_2960.class);
+                  var20.setAccessible(true);
+                  boolean var22 = Boolean.TRUE.equals(var20.invoke(var5, var0, var17));
+                  if (!var22) {
+                     System.err
+                        .println(
+                           "[Runic Attunement] Server rejected Attunement for "
+                              + var17
+                              + ". Check materials, raw XP, compatibility, shelf state and table range."
+                        );
+                     feedback(var0, "Runic Attunement rejected by server. Check materials, raw XP, compatibility and shelf/table state.");
+                  }
 
-    private static Object findRunicHandler(class_3222 class_32222) throws IllegalAccessException {
-        for (Class<?> clazz = class_32222.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
-            for (Field field : clazz.getDeclaredFields()) {
-                Object object;
-                field.setAccessible(true);
-                try {
-                    object = field.get(class_32222);
-                }
-                catch (Throwable throwable) {
-                    continue;
-                }
-                if (object == null || !object.getClass().getName().equals("dev.runicattunement.screen.RunicInscriptionScreenHandler")) continue;
-                return object;
+                  return;
+               }
+
+               System.err.println("[Runic Attunement] Rejected Attunement: stale/invalid enchantment index " + var2 + ".");
+               feedback(var0, "Runic Attunement rejected: stale enchantment selection. Reopen the table.");
+               return;
             }
-        }
-        return null;
-    }
 
-    private static Set<Object> getSetField(Object object, String string) throws Exception {
-        Field field = object.getClass().getDeclaredField(string);
-        field.setAccessible(true);
-        return (Set)field.get(object);
-    }
+            Set var6 = getSetField(var5, "selectedNormal");
+            Set var7 = getSetField(var5, "removeCurses");
+            var6.clear();
+            var7.clear();
 
-    private static class_2960 parseIdentifier(String string) {
-        int n = string.indexOf(58);
-        if (n > 0 && n < string.length() - 1) {
-            return new class_2960(string.substring(0, n), string.substring(n + 1));
-        }
-        return new class_2960("minecraft", string);
-    }
+            for (String var11 : var3) {
+               var6.add(parseIdentifier(var11));
+            }
 
-    static final class PacketCodec {
-        private PacketCodec() {
-        }
+            for (String var23 : var4) {
+               var7.add(parseIdentifier(var23));
+            }
 
-        static int readInt(Object object) {
+            Method var16 = var5.getClass().getDeclaredMethod("tryTransmute", class_3222.class);
+            var16.setAccessible(true);
+            boolean var19 = Boolean.TRUE.equals(var16.invoke(var5, var0));
+            if (!var19) {
+               System.err
+                  .println(
+                     "[Runic Attunement] Server rejected Transmutation. Selected="
+                        + var6.size()
+                        + ", removeCurses="
+                        + var7.size()
+                        + ". Check source/target compatibility, materials, raw XP and screen/table state."
+                  );
+               feedback(var0, "Runic Transmutation rejected by server. Check source/target compatibility, materials and raw XP.");
+            }
+         } catch (Throwable var12) {
+            System.err.println("[Runic Attunement] Action processing failed: " + var12);
+            var12.printStackTrace();
+            feedback(var0, "Runic multiplayer action failed internally. Check latest.log for [Runic Attunement].");
+         }
+      }
+   }
+
+   private static void feedback(class_3222 var0, String var1) {
+      try {
+         var0.method_7353(class_2561.method_43470(var1), true);
+      } catch (Throwable var3) {
+      }
+   }
+
+   private static Object findRunicHandler(class_3222 var0) throws IllegalAccessException {
+      for (Class var1 = var0.getClass(); var1 != null; var1 = var1.getSuperclass()) {
+         for (Field var5 : var1.getDeclaredFields()) {
+            var5.setAccessible(true);
+
+            Object var6;
             try {
-                return ((Number)object.getClass().getMethod("readInt", new Class[0]).invoke(object, new Object[0])).intValue();
+               var6 = var5.get(var0);
+            } catch (Throwable var8) {
+               continue;
             }
-            catch (ReflectiveOperationException reflectiveOperationException) {
-                throw new IllegalStateException("Could not read Runic MP packet int", reflectiveOperationException);
-            }
-        }
 
-        static String readString(Object object) {
-            int n = PacketCodec.readInt(object);
-            if (n < 0 || n > Short.MAX_VALUE) {
-                throw new IllegalArgumentException("Invalid Runic MP packet string length: " + n);
+            if (var6 != null && var6.getClass().getName().equals("dev.runicattunement.screen.RunicInscriptionScreenHandler")) {
+               return var6;
             }
-            byte[] byArray = new byte[n];
+         }
+      }
+
+      return null;
+   }
+
+   private static Set<Object> getSetField(Object var0, String var1) throws Exception {
+      Field var2 = var0.getClass().getDeclaredField(var1);
+      var2.setAccessible(true);
+      return (Set<Object>)var2.get(var0);
+   }
+
+   private static class_2960 parseIdentifier(String var0) {
+      int var1 = var0.indexOf(58);
+      return var1 > 0 && var1 < var0.length() - 1 ? new class_2960(var0.substring(0, var1), var0.substring(var1 + 1)) : new class_2960("minecraft", var0);
+   }
+
+   static final class PacketCodec {
+      private PacketCodec() {
+      }
+
+      static int readInt(Object var0) {
+         try {
+            return ((Number)var0.getClass().getMethod("readInt").invoke(var0)).intValue();
+         } catch (ReflectiveOperationException var2) {
+            throw new IllegalStateException("Could not read Runic MP packet int", var2);
+         }
+      }
+
+      static String readString(Object var0) {
+         int var1 = readInt(var0);
+         if (var1 >= 0 && var1 <= 32767) {
+            byte[] var2 = new byte[var1];
+
             try {
-                object.getClass().getMethod("readBytes", byte[].class).invoke(object, new Object[]{byArray});
+               var0.getClass().getMethod("readBytes", byte[].class).invoke(var0, var2);
+            } catch (ReflectiveOperationException var4) {
+               throw new IllegalStateException("Could not read Runic MP packet bytes", var4);
             }
-            catch (ReflectiveOperationException reflectiveOperationException) {
-                throw new IllegalStateException("Could not read Runic MP packet bytes", reflectiveOperationException);
-            }
-            return new String(byArray, StandardCharsets.UTF_8);
-        }
-    }
+
+            return new String(var2, StandardCharsets.UTF_8);
+         } else {
+            throw new IllegalArgumentException("Invalid Runic MP packet string length: " + var1);
+         }
+      }
+   }
 }
-

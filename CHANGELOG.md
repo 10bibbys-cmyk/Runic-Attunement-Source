@@ -1,11 +1,12 @@
 # Changelog
 
-## 1.3.8 — Public source recovery (14 November 2026)
+## 1.3.8 — Source recovery maintenance (14 November 2026)
 
-- Published the source snapshot reconstructed from the existing 1.3.8 production JAR.
-- Included all Java classes, assets, datapack resources, translations, advancement definitions, loot profiles, mixin configurations, and multiplayer compatibility components.
-- Added the All Rights Reserved source licence and build project files.
-- The existing CurseForge 1.3.8 JAR is unchanged, and no new gameplay release is implied.
-- Clean compilation of the recovered source and in-game equivalence testing remain outstanding.
+- Replaced the initial non-compiling CFR source snapshot with a Vineflower 1.12.0 reconstruction of the verified published 1.3.8 JAR.
+- Repaired decompiler-generated type errors, compiler bridge methods, Mixin selector declarations, and the original Runic Table mouse-click handler.
+- Added a reproducible Java 17 / Fabric Loom 1.7.4 build that passes Gradle compilation and packaging.
+- Preserved all original compiled class paths, assets, datapack content, and the Runic Mixin reference map.
+- **This is source and build maintenance, not a new gameplay release.** The existing 1.3.8 CurseForge JAR has not been changed.
+- The rebuilt experimental JAR requires in-game regression testing before it can replace the official release.
 
-The released mod includes Tablet-based Attunement, Reforging, Transmutation, Unravel refunds, datapack-driven eligibility, optional Jade and Enchanted ToolTips integration, and the refined Runic Table interface.
+Runic Attunement 1.3.8 includes Tablet-based Attunement, Reforging, Transmutation, Unravel refunds, datapack-driven equipment compatibility, optional Jade and Enchanted ToolTips support, and a refined Runic Table interface.

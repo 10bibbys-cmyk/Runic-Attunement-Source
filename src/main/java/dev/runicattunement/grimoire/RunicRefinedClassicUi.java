@@ -1,23 +1,5 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.minecraft.class_1109
- *  net.minecraft.class_1113
- *  net.minecraft.class_1792
- *  net.minecraft.class_1799
- *  net.minecraft.class_1935
- *  net.minecraft.class_2561
- *  net.minecraft.class_2960
- *  net.minecraft.class_310
- *  net.minecraft.class_327
- *  net.minecraft.class_332
- *  net.minecraft.class_3414
- *  net.minecraft.class_7923
- */
 package dev.runicattunement.grimoire;
 
-import dev.runicattunement.grimoire.RunicGrimoireUi;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,11 +14,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.Map.Entry;
 import net.minecraft.class_1109;
-import net.minecraft.class_1113;
 import net.minecraft.class_1792;
 import net.minecraft.class_1799;
-import net.minecraft.class_1935;
 import net.minecraft.class_2561;
 import net.minecraft.class_2960;
 import net.minecraft.class_310;
@@ -46,1186 +27,1252 @@ import net.minecraft.class_3414;
 import net.minecraft.class_7923;
 
 public final class RunicRefinedClassicUi {
-    private static final Map<Object, State> STATE = Collections.synchronizedMap(new WeakHashMap());
-    private static final Map<String, Method> METHODS = new HashMap<String, Method>();
-    private static final class_2960 BG = new class_2960("runic_attunement", "textures/gui/classic_refined_bg.png");
-    private static final class_2960 BG_TRANS = new class_2960("runic_attunement", "textures/gui/classic_refined_transmutation_bg.png");
-    private static volatile Object[] runeSigils;
-    private static final class_2960 RUNE_OFF;
-    private static final class_2960 RUNE_ON;
-    private static final int WHITE = -2565411;
-    private static final int GOLD = -3563153;
-    private static final int GRAY = -7695202;
-    private static final int VIOLET = -3892498;
-    private static final int MUTED = -8945783;
-    private static final int RED = -2912890;
-    private static final int GREEN = -7748193;
-    private static final int INK = -15591652;
-    private static final int HOVER = -12300711;
-    private static final int DIM = -14341327;
-    private static final int SELECT = -11649438;
-    private static final int ART_X = -16;
-    private static final int ART_Y = -12;
-    private static final int RUNE_Y = 153;
-    private static final int LEFT_CX = 124;
-    private static final int RIGHT_CX = 547;
-    private static final int INV_X = 255;
-    private static final int INV_Y = 270;
-    private static final int BOOK_X = 451;
-    private static final int BOOK_Y = 149;
-    private static final int ROW_H = 17;
-    private static final int ROWS = 11;
+   private static final Map<Object, RunicRefinedClassicUi.State> STATE = Collections.synchronizedMap(new WeakHashMap<>());
+   private static final Map<String, Method> METHODS = new HashMap<>();
+   private static final class_2960 BG = new class_2960("runic_attunement", "textures/gui/classic_refined_bg.png");
+   private static final class_2960 BG_TRANS = new class_2960("runic_attunement", "textures/gui/classic_refined_transmutation_bg.png");
+   private static volatile Object[] runeSigils;
+   private static final class_2960 RUNE_OFF = new class_2960("runic_attunement", "textures/gui/classic_rune_dormant.png");
+   private static final class_2960 RUNE_ON = new class_2960("runic_attunement", "textures/gui/classic_rune_active.png");
+   private static final int WHITE = -2565411;
+   private static final int GOLD = -3563153;
+   private static final int GRAY = -7695202;
+   private static final int VIOLET = -3892498;
+   private static final int MUTED = -8945783;
+   private static final int RED = -2912890;
+   private static final int GREEN = -7748193;
+   private static final int INK = -15591652;
+   private static final int HOVER = -12300711;
+   private static final int DIM = -14341327;
+   private static final int SELECT = -11649438;
+   private static final int ART_X = -16;
+   private static final int ART_Y = -12;
+   private static final int RUNE_Y = 153;
+   private static final int LEFT_CX = 124;
+   private static final int RIGHT_CX = 547;
+   private static final int INV_X = 255;
+   private static final int INV_Y = 270;
+   private static final int BOOK_X = 451;
+   private static final int BOOK_Y = 149;
+   private static final int ROW_H = 17;
+   private static final int ROWS = 11;
 
-    private RunicRefinedClassicUi() {
-    }
+   private RunicRefinedClassicUi() {
+   }
 
-    private static State st(Object object2) {
-        return STATE.computeIfAbsent(object2, object -> new State());
-    }
+   private static RunicRefinedClassicUi.State st(Object var0) {
+      return STATE.computeIfAbsent(var0, var0x -> new RunicRefinedClassicUi.State());
+   }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
-    private static Method lookup(String string, int n) {
-        String string2 = string + "/" + n;
-        Map<String, Method> map = METHODS;
-        synchronized (map) {
-            Method method = METHODS.get(string2);
-            if (method != null) {
-                return method;
+   private static Method lookup(String var0, int var1) {
+      String var2 = var0 + "/" + var1;
+      synchronized (METHODS) {
+         Method var4 = METHODS.get(var2);
+         if (var4 != null) {
+            return var4;
+         }
+
+         for (Method var8 : RunicGrimoireUi.class.getDeclaredMethods()) {
+            if (var8.getName().equals(var0) && var8.getParameterCount() == var1) {
+               var8.setAccessible(true);
+               METHODS.put(var2, var8);
+               return var8;
             }
-            for (Method method2 : RunicGrimoireUi.class.getDeclaredMethods()) {
-                if (!method2.getName().equals(string) || method2.getParameterCount() != n) continue;
-                method2.setAccessible(true);
-                METHODS.put(string2, method2);
-                return method2;
+         }
+      }
+
+      throw new IllegalStateException("Missing Runic UI method " + var2);
+   }
+
+   private static <T> T call(String var0, Object... var1) {
+      try {
+         return (T)lookup(var0, var1.length).invoke(null, var1);
+      } catch (InvocationTargetException var3) {
+         throw new IllegalStateException("Runic UI:" + var0, var3.getCause());
+      } catch (ReflectiveOperationException var4) {
+         throw new IllegalStateException("Runic UI:" + var0, var4);
+      }
+   }
+
+   private static Field fld(Object var0, String var1) throws NoSuchFieldException {
+      for (Class var2 = var0.getClass(); var2 != null; var2 = var2.getSuperclass()) {
+         try {
+            Field var3 = var2.getDeclaredField(var1);
+            var3.setAccessible(true);
+            return var3;
+         } catch (NoSuchFieldException var4) {
+         }
+      }
+
+      throw new NoSuchFieldException(var1);
+   }
+
+   private static Object get(Object var0, String var1) {
+      try {
+         return var0 == null ? null : fld(var0, var1).get(var0);
+      } catch (Exception var3) {
+         return null;
+      }
+   }
+
+   private static void set(Object var0, String var1, Object var2) {
+      try {
+         fld(var0, var1).set(var0, var2);
+      } catch (Exception var4) {
+         throw new IllegalStateException("Field " + var1, var4);
+      }
+   }
+
+   private static int num(Object var0) {
+      return var0 instanceof Number var1 ? var1.intValue() : 0;
+   }
+
+   private static long lng(Object var0) {
+      return var0 instanceof Number var1 ? var1.longValue() : 0L;
+   }
+
+   private static int x(Object var0) {
+      return call("x", var0);
+   }
+
+   private static int y(Object var0) {
+      return call("y", var0);
+   }
+
+   private static int ax(Object var0) {
+      return x(var0) + -16;
+   }
+
+   private static int ay(Object var0) {
+      return y(var0) + -12;
+   }
+
+   private static boolean trans(Object var0) {
+      return Boolean.TRUE.equals(call("trans", var0));
+   }
+
+   private static boolean empty(Object var0) {
+      return Boolean.TRUE.equals(call("empty", var0));
+   }
+
+   private static Object source(Object var0) {
+      return call("source", var0);
+   }
+
+   private static Object target(Object var0) {
+      return call("target", var0);
+   }
+
+   private static Object equipment(Object var0) {
+      return call("equipment", var0);
+   }
+
+   private static Object selected(Object var0) {
+      return call("current", var0);
+   }
+
+   private static class_327 font(Object var0) {
+      return call("font", var0);
+   }
+
+   private static List<?> all(Object var0) {
+      return call("filtered", var0);
+   }
+
+   private static List<?> transferIds(Object var0) {
+      return call("transferIds", var0);
+   }
+
+   private static Set<?> selectedTransfer(Object var0) {
+      return call("transfers", var0);
+   }
+
+   private static Set<?> selectedCurses(Object var0) {
+      return call("curses", var0);
+   }
+
+   private static Map<?, Integer> enchants(Object var0) {
+      return call("enchants", var0);
+   }
+
+   private static List<?> costs(Object var0, boolean var1) {
+      List var2 = call("costs", var0, var1);
+      if (!var2.isEmpty()) {
+         return var2;
+      }
+
+      try {
+         if (!var1) {
+            Object var11 = selected(var0);
+            Object var13 = equipment(var0);
+            if (var11 != null && !empty(var13)) {
+               Object var15 = call("handler", var0);
+               Object var16 = call("call", var15, "getDefinition", new Object[]{var11});
+               if (var16 == null) {
+                  return var2;
+               }
+
+               int var7 = num(enchants(var13).get(var11)) + 1;
+               if (call("call", var15, "getClientCosts", new Object[]{var16, var7}) instanceof List var9 && !var9.isEmpty()) {
+                  return var9;
+               }
+
+               return var2;
             }
-        }
-        throw new IllegalStateException("Missing Runic UI method " + string2);
-    }
 
-    private static <T> T call(String string, Object ... objectArray) {
-        try {
-            return (T)RunicRefinedClassicUi.lookup(string, objectArray.length).invoke(null, objectArray);
-        }
-        catch (InvocationTargetException invocationTargetException) {
-            throw new IllegalStateException("Runic UI:" + string, invocationTargetException.getCause());
-        }
-        catch (ReflectiveOperationException reflectiveOperationException) {
-            throw new IllegalStateException("Runic UI:" + string, reflectiveOperationException);
-        }
-    }
+            return var2;
+         }
 
-    private static Field fld(Object object, String string) throws NoSuchFieldException {
-        for (Class<?> clazz = object.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
+         if (selectedTransfer(var0).isEmpty() && selectedCurses(var0).isEmpty()) {
+            return var2;
+         }
+
+         Object var3 = call("handler", var0);
+         Class var12 = Class.forName("dev.runicattunement.transmutation.TransmutationRules");
+         if (call(
+               "call",
+               var12,
+               "calculateCosts",
+               new Object[]{
+                  source(var0),
+                  target(var0),
+                  call("call", var3, "getDefinitions", new Object[0]),
+                  selectedTransfer(var0),
+                  selectedCurses(var0),
+                  call("call", var3, "getTransmutationCosts", new Object[0]),
+                  call("call", var3, "getTransmutationSettings", new Object[0])
+               }
+            ) instanceof List var6
+            && !var6.isEmpty()) {
+            return var6;
+         }
+      } catch (Throwable var10) {
+         RunicRefinedClassicUi.State var4 = st(var0);
+         String var5 = var1 ? "direct-transmutation-cost-quote" : "direct-attunement-cost-quote";
+         if (var4.failedSections.add(var5)) {
+            System.err.println("[Runic Classic Refined] Could not read server-synchronised material quote: " + var10);
+            var10.printStackTrace();
+         }
+      }
+
+      return var2;
+   }
+
+   private static int xp(Object var0, boolean var1) {
+      return call("xp", var0, var1);
+   }
+
+   private static boolean allowed(Object var0, boolean var1) {
+      return Boolean.TRUE.equals(call("allowed", var0, var1));
+   }
+
+   private static String nice(Object var0) {
+      if (var0 == null) {
+         return "—";
+      }
+
+      try {
+         String var1 = call("naturalName", var0, 0);
+         return var1 == null ? String.valueOf(var0) : var1;
+      } catch (Throwable var2) {
+         return String.valueOf(var0);
+      }
+   }
+
+   private static void fill(class_332 var0, int var1, int var2, int var3, int var4, int var5) {
+      if (var3 > 0 && var4 > 0) {
+         var0.method_25294(var1, var2, var1 + var3, var2 + var4, var5);
+      }
+   }
+
+   private static void border(class_332 var0, int var1, int var2, int var3, int var4, int var5) {
+      fill(var0, var1, var2, var3, 1, var5);
+      fill(var0, var1, var2 + var4 - 1, var3, 1, var5);
+      fill(var0, var1, var2, 1, var4, var5);
+      fill(var0, var1 + var3 - 1, var2, 1, var4, var5);
+   }
+
+   private static void text(class_332 var0, class_327 var1, String var2, int var3, int var4, int var5) {
+      var0.method_51433(var1, var2, var3, var4, var5, false);
+   }
+
+   private static String fit(String var0, int var1) {
+      return var0 == null ? "" : (var0.length() > var1 ? var0.substring(0, Math.max(1, var1 - 1)) + "…" : var0);
+   }
+
+   private static int width(class_327 var0, String var1) {
+      return var0.method_1727(var1);
+   }
+
+   private static void centered(class_332 var0, class_327 var1, String var2, int var3, int var4, int var5) {
+      text(var0, var1, var2, var3 - width(var1, var2) / 2, var4, var5);
+   }
+
+   private static void centerBox(class_332 var0, class_327 var1, String var2, int var3, int var4, int var5, int var6, int var7) {
+      text(var0, var1, var2, var3 + (var5 - width(var1, var2)) / 2, var4 + (var6 - 9) / 2, var7);
+   }
+
+   private static String fitPixels(class_327 var0, String var1, int var2) {
+      if (var1 == null) {
+         return "";
+      }
+
+      if (width(var0, var1) <= var2) {
+         return var1;
+      }
+
+      int var3 = Math.max(0, var2 - width(var0, "…"));
+      int var4 = var1.length();
+
+      while (var4 > 0 && width(var0, var1.substring(0, var4)) > var3) {
+         var4--;
+      }
+
+      return var1.substring(0, var4) + "…";
+   }
+
+   private static boolean inside(double var0, double var2, int var4, int var5, int var6, int var7) {
+      return var0 >= var4 && var2 >= var5 && var0 < var4 + var6 && var2 < var5 + var7;
+   }
+
+   private static boolean hover(Object var0, int var1, int var2, int var3, int var4) {
+      RunicRefinedClassicUi.State var5 = st(var0);
+      return inside(var5.mouseX, var5.mouseY, ax(var0) + var1, ay(var0) + var2, var3, var4);
+   }
+
+   private static void button(class_332 var0, class_327 var1, String var2, int var3, int var4, int var5, int var6, boolean var7, boolean var8, int var9) {
+      fill(var0, var3, var4, var5, var6, -15526116);
+      fill(var0, var3 + 1, var4 + 1, var5 - 2, var6 - 2, var7 ? (var8 ? -11188384 : -12567753) : -14013134);
+      border(var0, var3, var4, var5, var6, var7 ? (var8 ? -1983106 : -7572401) : -11512740);
+      fill(var0, var3 + 2, var4 + 1, var5 - 4, 1, var7 ? var9 : -12499378);
+      centerBox(var0, var1, var2, var3, var4 + 1, var5, var6, var7 ? (var8 ? -666456 : -2565411) : -9670022);
+   }
+
+   private static void tabButton(class_332 var0, class_327 var1, String var2, int var3, int var4, int var5, int var6, boolean var7, boolean var8) {
+      int var9 = var7 ? -11452321 : (var8 ? -10530501 : -13354946);
+      int var10 = var7 ? -4220196 : (var8 ? -1720965 : -9472640);
+      int var11 = var7 ? -8004 : (var8 ? -7505 : -4802113);
+      fill(var0, var3, var4, var5, var6, -15657959);
+      fill(var0, var3 + 1, var4 + 1, var5 - 2, var6 - 2, var9);
+      border(var0, var3, var4, var5, var6, var10);
+      fill(var0, var3 + 2, var4 + 2, var5 - 4, 1, var7 ? -4814117 : (var8 ? -997748 : -10327949));
+      centerBox(var0, var1, var2, var3, var4 + 1, var5, var6, var11);
+   }
+
+   private static void switchSound() {
+      try {
+         class_3414 var0 = class_3414.method_47908(new class_2960("minecraft", "ui.button.click"));
+         class_1109 var1 = class_1109.method_4758(var0, 1.06F);
+         class_310.method_1551().method_1483().method_4873(var1);
+      } catch (Throwable var2) {
+      }
+   }
+
+   private static void switchFx(Object var0) {
+      st(var0).tabFxStart = System.nanoTime();
+      switchSound();
+   }
+
+   private static void drawSwitchFx(Object var0, class_332 var1, int var2, int var3) {
+      long var4 = System.nanoTime() - st(var0).tabFxStart;
+      if (var4 >= 0L && var4 <= 420000000L && st(var0).tabFxStart != 0L) {
+         float var6 = (float)var4 / 4.2E8F;
+         int var7 = var2 + (trans(var0) ? 515 : 378);
+         int var8 = var3 + 25;
+         int var9 = trans(var0) ? 130 : 129;
+         byte var10 = 28;
+         int var11 = var6 < 0.35F ? -1787398 : -4812331;
+
+         for (int var12 = 0; var12 < 6; var12++) {
+            float var13 = (var12 / 6.0F + var6 * 0.7F) % 1.0F;
+            int var14 = var7 + 3 + (int)((var9 - 6) * var13);
+            int var15 = var12 % 2 == 0 ? var8 + 2 : var8 + var10 - 4;
+            fill(var1, var14, var15, 2, 2, var12 % 3 == 0 ? -1195647 : var11);
+         }
+      }
+   }
+
+   private static void filterButton(class_332 var0, class_327 var1, String var2, int var3, int var4, int var5, int var6, boolean var7, boolean var8) {
+      fill(var0, var3, var4, var5, var6, -15526116);
+      fill(var0, var3 + 1, var4 + 1, var5 - 2, var6 - 2, var7 ? -11058325 : (var8 ? -11845565 : -12567753));
+      border(var0, var3, var4, var5, var6, var7 ? -5733944 : -7506354);
+      centerBox(var0, var1, var2, var3, var4 + 1, var5, var6, var7 ? -665423 : -7695202);
+   }
+
+   private static void tex(class_332 var0, class_2960 var1, int var2, int var3, int var4, int var5) {
+      var0.method_25290(var1, var2, var3, 0.0F, 0.0F, var4, var5, var4, var5);
+   }
+
+   private static void searchPos(Object var0, int var1, int var2, int var3) {
+      if (var0 != null) {
+         for (String[] var7 : new String[][]{{"method_46421", String.valueOf(var1)}, {"method_46419", String.valueOf(var2)}}) {
+            boolean var8 = false;
+
+            for (Method var12 : var0.getClass().getMethods()) {
+               if (var12.getName().equals(var7[0]) && var12.getParameterCount() == 1) {
+                  try {
+                     var12.invoke(var0, Integer.parseInt(var7[1]));
+                     var8 = true;
+                     break;
+                  } catch (Exception var14) {
+                  }
+               }
+            }
+
+            if (!var8) {
+               throw new IllegalStateException("Search field move: " + var7[0]);
+            }
+         }
+
+         set(var0, "field_22758", var3);
+      }
+   }
+
+   public static void relayout(Object var0) {
+      if (RunicGrimoireUi.active(var0)) {
+         try {
+            List var1 = call("slots", var0);
+            int var2 = ax(var0);
+            int var3 = ay(var0);
+            int var4 = num(get(var0, "field_2776"));
+            int var5 = num(get(var0, "field_2800"));
+            boolean var6 = trans(var0);
+
+            for (int var7 = 0; var7 < var1.size(); var7++) {
+               int var8 = -5000;
+               int var9 = -5000;
+               if (var7 == 0) {
+                  var8 = var2 + 124 - 8;
+                  var9 = var3 + 153 - 8;
+               } else if (var7 == 1 && var6) {
+                  var8 = var2 + 547 - 8;
+                  var9 = var3 + 153 - 8;
+               } else if (var7 >= 2 && var7 < 38) {
+                  int var10 = var7 - 2;
+                  int var11 = var10 < 27 ? var10 / 9 : 3;
+                  int var12 = var10 < 27 ? var10 % 9 : var10 - 27;
+                  var8 = var2 + 255 + 18 * var12;
+                  var9 = var3 + 270 + 18 * var11 + (var11 == 3 ? 8 : 0);
+               }
+
+               set(var1.get(var7), "field_7873", var8 - var4);
+               set(var1.get(var7), "field_7872", var9 - var5);
+            }
+
+            Object var14 = get(var0, "searchField");
+            if (var14 != null) {
+               searchPos(var14, var2 + (var6 ? -5000 : 458), var3 + (var6 ? -5000 : 100), 177);
+            }
+         } catch (Throwable var13) {
+            error(var0, "relayout", var13);
+         }
+      }
+   }
+
+   private static void error(Object var0, String var1, Throwable var2) {
+      if (!st(var0).warned) {
+         st(var0).warned = true;
+         System.err.println("[Runic Classic Refined] " + var1 + ": " + var2);
+         var2.printStackTrace();
+      }
+   }
+
+   public static boolean background(Object var0, class_332 var1, float var2, int var3, int var4) {
+      if (!RunicGrimoireUi.active(var0)) {
+         return false;
+      }
+
+      try {
+         RunicGrimoireUi.prepare(var0);
+         st(var0).mouseX = var3;
+         st(var0).mouseY = var4;
+         Object var5 = call("state", var0);
+         set(var5, "mouseX", var3);
+         set(var5, "mouseY", var4);
+         int var6 = ax(var0);
+         int var7 = ay(var0);
+         tex(var1, trans(var0) ? BG_TRANS : BG, var6, var7, 672, 390);
+         boolean var8 = trans(var0);
+         Object var9 = var8 ? source(var0) : equipment(var0);
+         seal(var1, var6 + 124, var7 + 153, !empty(var9), 0, var0);
+         if (var8) {
+            seal(var1, var6 + 547, var7 + 153, !empty(target(var0)), 1, var0);
+         }
+
+         for (int var10 = 0; var10 < 36; var10++) {
+            int var11 = var10 < 27 ? var10 / 9 : 3;
+            int var12 = var10 < 27 ? var10 % 9 : var10 - 27;
+            int var13 = var6 + 255 + var12 * 18;
+            int var14 = var7 + 270 + var11 * 18 + (var11 == 3 ? 8 : 0);
+            fill(var1, var13 - 1, var14 - 1, 18, 18, -11576987);
+            fill(var1, var13, var14, 16, 16, -14341325);
+         }
+
+         relayout(var0);
+         return true;
+      } catch (Throwable var15) {
+         error(var0, "background", var15);
+         return false;
+      }
+   }
+
+   private static Object[] glyphs() {
+      Object[] var0 = runeSigils;
+      if (var0 != null) {
+         return var0;
+      }
+
+      try {
+         Field var1 = RunicGrimoireUi.class.getDeclaredField("CACHED_SIGILS");
+         var1.setAccessible(true);
+         runeSigils = (Object[])var1.get(null);
+      } catch (Throwable var2) {
+         runeSigils = new Object[0];
+      }
+
+      return runeSigils;
+   }
+
+   private static void seal(class_332 var0, int var1, int var2, boolean var3, int var4, Object var5) {
+      tex(var0, var3 ? RUNE_ON : RUNE_OFF, var1 - 56, var2 - 56, 112, 112);
+      Object[] var6 = glyphs();
+      if (var6.length != 0) {
+         double var7 = System.nanoTime() / 1.0E9;
+         double var9 = var7 * (var3 ? 0.28 : 0.065) * (var4 == 0 ? 1 : -1);
+
+         for (int var11 = 0; var11 < 13; var11++) {
+            double var12 = (Math.PI * 2) * var11 / 13.0 + var9 + var4 * 0.19;
+            int var14 = var1 + (int)Math.round(56.0 * Math.cos(var12)) - 3;
+            int var15 = var2 + (int)Math.round(56.0 * Math.sin(var12)) - 4;
+            int var16 = Math.floorMod(var4 * 7 + var11 * 11 + var11 * var11 * 3, var6.length);
+            if (var6[var16] instanceof class_2561 var18) {
+               int var19 = var3 ? (var11 % 3 == 0 ? -1063545 : -4219931) : (var11 % 3 == 0 ? -8951684 : -10331279);
+               var0.method_27534(font(var5), var18, var14, var15, var19);
+            }
+         }
+      }
+   }
+
+   public static boolean foreground(Object var0, class_332 var1) {
+      if (!RunicGrimoireUi.active(var0)) {
+         return false;
+      }
+
+      try {
+         class_327 var2 = font(var0);
+         int var3 = num(get(var0, "field_2776"));
+         int var4 = num(get(var0, "field_2800"));
+         int var5 = ax(var0) - var3;
+         int var6 = ay(var0) - var4;
+         boolean var7 = trans(var0);
+         centerBox(var1, var2, "RUNIC ATTUNEMENT TABLE", var5 + 28, var6 + 25, 341, 28, -3563153);
+         tabButton(var1, var2, "ATTUNEMENT", var5 + 378, var6 + 25, 129, 28, !var7, hover(var0, 378, 25, 129, 28));
+         tabButton(var1, var2, "TRANSMUTATION", var5 + 515, var6 + 25, 130, 28, var7, hover(var0, 515, 25, 130, 28));
+         centerBox(var1, var2, var7 ? "SOURCE EQUIPMENT" : "EQUIPMENT", var5 + 34, var6 + 72, 179, 20, -3563153);
+         centerBox(var1, var2, var7 ? "TRANSMUTATION" : "ATTUNEMENT", var5 + 247, var6 + 72, 176, 20, -3563153);
+         centerBox(var1, var2, var7 ? "TARGET EQUIPMENT" : "ATTUNEMENT TOME", var5 + 457, var6 + 72, 181, 20, -3563153);
+         if (var7) {
+            drawTransmutation(var0, var1, var2, var5, var6);
+         } else {
+            drawAttunement(var0, var1, var2, var5, var6);
+         }
+
+         centerBox(var1, var2, "INVENTORY", var5 + 246, var6 + 253, 177, 15, -3563153);
+         drawFX(var0, var1, var5, var6);
+         drawSwitchFx(var0, var1, var5, var6);
+         drawInfoPopup(var0, var1, var2, var5, var6);
+         return true;
+      } catch (Throwable var8) {
+         error(var0, "foreground", var8);
+         return true;
+      }
+   }
+
+   private static void safely(Object var0, String var1, Runnable var2) {
+      try {
+         var2.run();
+      } catch (Throwable var5) {
+         RunicRefinedClassicUi.State var4 = st(var0);
+         if (var4.failedSections.add(var1)) {
+            System.err.println("[Runic Classic Refined] Foreground section '" + var1 + "' failed; other panels retained: " + var5);
+            var5.printStackTrace();
+         }
+      }
+   }
+
+   private static void drawAttunement(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      safely(var0, "attunement-refresh", () -> call("call", var0, "syncAttunementCostState", new Object[0]));
+      safely(var0, "attunement-inscribed", () -> drawAttunementInscribed(var0, var1, var2, var3, var4));
+      safely(var0, "attunement-costs-and-actions", () -> drawAttunementCenter(var0, var1, var2, var3, var4));
+      safely(var0, "attunement-tome", () -> drawAttunementCatalogue(var0, var1, var2, var3, var4));
+   }
+
+   private static void drawAttunementInscribed(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      Object var5 = equipment(var0);
+      Object var6 = selected(var0);
+      boolean var7 = !empty(var5);
+      centerBox(var1, var2, "INSCRIBED RUNES", var3 + 35, var4 + 220, 178, 18, -3563153);
+      Map<?, Integer> var8 = var7 ? enchants(var5) : Map.of();
+      int var9 = 0;
+      int var10 = Math.max(0, num(get(call("state", var0), "installedScroll")));
+      if (var8.isEmpty()) {
+         centerBox(var1, var2, var7 ? "No enchantments" : "Insert equipment", var3 + 38, var4 + 247, 168, 20, -8945783);
+      }
+
+      for (Entry var12 : var8.entrySet()) {
+         if (var9++ >= var10) {
+            int var13 = var9 - 1 - var10;
+            if (var13 >= 6) {
+               break;
+            }
+
+            int var14 = var4 + 244 + var13 * 17;
+            boolean var15 = Objects.equals(var6, var12.getKey());
+            if (var15) {
+               fill(var1, var3 + 40, var14 - 1, 165, 15, -11649438);
+            }
+
+            text(var1, var2, fitPixels(var2, nice(var12.getKey()), 129), var3 + 43, var14 + 2, var15 ? -2565411 : -7695202);
+            text(var1, var2, roman(num(var12.getValue())), var3 + 198 - width(var2, roman(num(var12.getValue()))), var14 + 2, var15 ? -3892498 : -3563153);
+         }
+      }
+
+      if (var8.size() > 6) {
+         text(var1, var2, "▾", var3 + 197, var4 + 337, -3892498);
+      }
+   }
+
+   private static void drawAttunementCenter(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      Object var5 = equipment(var0);
+      Object var6 = selected(var0);
+      boolean var7 = !empty(var5);
+      boolean var8 = var7 && var6 != null;
+      int var9 = var8 ? num(call("level", var0)) : 0;
+      centerBox(
+         var1,
+         var2,
+         var8 ? "LEVEL  " + (var9 > 0 ? roman(var9) : "—") + "  →  " + roman(var9 + 1) : "LEVEL  —  →  —",
+         var3 + 249,
+         var4 + 105,
+         172,
+         14,
+         var8 ? -3563153 : -8945783
+      );
+      centerBox(var1, var2, "MATERIAL COSTS", var3 + 249, var4 + 121, 172, 13, -3563153);
+      safely(var0, "attunement-material-items", () -> drawCosts(var0, var1, var2, var3 + 262, var4 + 139, false));
+      centerBox(var1, var2, var8 ? "XP: " + xp(var0, false) : "XP: —", var3 + 249, var4 + 195, 172, 11, var8 ? -3563153 : -8945783);
+      boolean var10 = var8 && allowed(var0, false);
+      boolean var11 = var8 && var9 > 0;
+      button(var1, var2, "UNRAVEL", var3 + 248, var4 + 221, 83, 20, var11, hover(var0, 248, 221, 83, 20), -5995835);
+      button(var1, var2, "ATTUNE", var3 + 336, var4 + 221, 83, 20, var10, hover(var0, 336, 221, 83, 20), -3562899);
+   }
+
+   private static void drawAttunementCatalogue(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      Object var5 = selected(var0);
+
+      for (int var6 = 0; var6 < 4; var6++) {
+         int var7 = var3 + 453 + var6 * 47;
+         int var8 = num(get(var0, "tierFilter"));
+         filterButton(
+            var1, var2, new String[]{"ALL", "I", "II", "III"}[var6], var7, var4 + 125, 43, 16, var8 == var6, hover(var0, 453 + var6 * 47, 125, 43, 16)
+         );
+      }
+
+      List var14 = all(var0);
+      int var15 = Math.max(0, var14.size() - 11);
+      int var16 = Math.max(0, Math.min(var15, num(get(var0, "scrollOffset"))));
+
+      for (int var9 = 0; var9 < 11 && var16 + var9 < var14.size(); var9++) {
+         Object var10 = var14.get(var16 + var9);
+         int var11 = var4 + 149 + var9 * 17;
+         boolean var12 = Objects.equals(var5, var10);
+         boolean var13 = hover(var0, 455, 149 + var9 * 17, 177, 17);
+         if (var12) {
+            fill(var1, var3 + 455, var11, 177, 16, -11649438);
+         } else if (var13) {
+            fill(var1, var3 + 455, var11, 177, 16, -12300711);
+         }
+
+         text(var1, var2, fitPixels(var2, nice(var10), 131), var3 + 459, var11 + 4, var12 ? -929372 : -7695202);
+         badge(var1, var2, "i", var3 + 594, var11 + 1, 15, 15, -7155500);
+         badge(var1, var2, roman(tier(var0, var10)), var3 + 613, var11 + 1, 19, 15, tier(var0, var10) == 3 ? -1918856 : -4021526);
+         if (var12) {
+            fill(var1, var3 + 455, var11, 2, 16, -5600296);
+         }
+      }
+
+      scroll(var1, var3 + 636, var4 + 150, 4, 185, var16, var15);
+   }
+
+   private static void drawTransmutation(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      safely(var0, "transmutation-refresh", () -> call("call", var0, "syncTransmutationState", new Object[0]));
+      safely(var0, "transmutation-source-list", () -> drawTransmutationSource(var0, var1, var2, var3, var4));
+      safely(var0, "transmutation-result-preview", () -> drawTransmutationResult(var0, var1, var2, var3, var4));
+      safely(var0, "transmutation-costs-and-actions", () -> drawTransmutationCenter(var0, var1, var2, var3, var4));
+   }
+
+   private static void drawTransmutationSource(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      Object var5 = source(var0);
+      Object var6 = target(var0);
+      List var7 = transferIds(var0);
+      centerBox(var1, var2, "SOURCE ENCHANTMENTS", var3 + 35, var4 + 220, 178, 18, -3563153);
+      Object var8 = call("state", var0);
+      int var9 = Math.max(0, num(get(var8, "sourceScroll")));
+      Set var10 = selectedTransfer(var0);
+      Set var11 = selectedCurses(var0);
+
+      for (int var12 = 0; var12 < 6 && var12 + var9 < var7.size(); var12++) {
+         Object var13 = var7.get(var12 + var9);
+         int var14 = var4 + 244 + var12 * 17;
+         boolean var15 = var10.contains(var13) || var11.contains(var13);
+         fill(var1, var3 + 41, var14 + 1, 11, 11, var15 ? -9086820 : -14341583);
+         border(var1, var3 + 41, var14 + 1, 11, 11, var15 ? -3892498 : -7695202);
+         if (var15) {
+            fill(var1, var3 + 45, var14 + 5, 3, 3, -3563153);
+         }
+
+         text(var1, var2, fitPixels(var2, nice(var13), 101), var3 + 59, var14 + 3, var15 ? -2565411 : -7695202);
+         badge(var1, var2, "i", var3 + 166, var14, 15, 15, -7155500);
+         badge(var1, var2, roman(tier(var0, var13)), var3 + 185, var14, 18, 15, -3563153);
+      }
+
+      if (var7.isEmpty()) {
+         centerBox(var1, var2, empty(var5) ? "Insert source item" : "No enchantments", var3 + 38, var4 + 248, 165, 20, -8945783);
+      }
+
+      if (var7.size() > 6) {
+         scroll(var1, var3 + 206, var4 + 244, 3, 100, var9, Math.max(0, var7.size() - 6));
+      }
+   }
+
+   private static void drawTransmutationResult(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      Object var5 = source(var0);
+      Object var6 = target(var0);
+      Set var7 = selectedTransfer(var0);
+      Set var8 = selectedCurses(var0);
+      centerBox(var1, var2, "RESULT PREVIEW", var3 + 453, var4 + 220, 185, 18, -3563153);
+      LinkedHashMap<Object, Integer> var9 = new LinkedHashMap<>();
+      var9.putAll(enchants(var6));
+      Map<?, Integer> var10 = enchants(var5);
+
+      for (Object var12 : var7) {
+         if (var10.get(var12) != null) {
+            var9.merge(var12, (Integer)var10.get(var12), Math::max);
+         }
+      }
+
+      for (Object var16 : var8) {
+         if (var10.get(var16) != null) {
+            var9.merge(var16, (Integer)var10.get(var16), Math::max);
+         }
+      }
+
+      int var15 = 0;
+
+      for (Entry var13 : var9.entrySet()) {
+         if (var15 >= 6) {
+            break;
+         }
+
+         text(var1, var2, fitPixels(var2, nice(var13.getKey()), 135), var3 + 464, var4 + 245 + var15 * 17, -7695202);
+         text(var1, var2, roman((Integer)var13.getValue()), var3 + 615, var4 + 245 + var15 * 17, -3563153);
+         var15++;
+      }
+
+      if (var15 == 0) {
+         centerBox(var1, var2, empty(var6) ? "Insert target item" : "No resulting runes", var3 + 453, var4 + 248, 185, 20, -8945783);
+      }
+   }
+
+   private static void drawTransmutationCenter(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      List var5 = transferIds(var0);
+      centerBox(var1, var2, "TRANSFER COST", var3 + 249, var4 + 105, 172, 14, -3563153);
+      centerBox(var1, var2, "MATERIALS", var3 + 249, var4 + 121, 172, 13, -3563153);
+      safely(var0, "transmutation-material-items", () -> drawCosts(var0, var1, var2, var3 + 262, var4 + 139, true));
+      centerBox(var1, var2, "XP: " + xp(var0, true), var3 + 249, var4 + 195, 172, 11, -3563153);
+      button(var1, var2, "SELECT ALL", var3 + 248, var4 + 216, 83, 15, !var5.isEmpty(), hover(var0, 248, 216, 83, 15), -4879390);
+      button(var1, var2, "CLEAR", var3 + 336, var4 + 216, 83, 15, !var5.isEmpty(), hover(var0, 336, 216, 83, 15), -5668275);
+      button(var1, var2, "TRANSMUTE", var3 + 248, var4 + 234, 171, 15, allowed(var0, true), hover(var0, 248, 234, 171, 15), -4879390);
+   }
+
+   private static Object itemFor(Object var0) {
+      return var0 instanceof class_2960 var1 ? class_7923.field_41178.method_17966(var1).orElse(null) : null;
+   }
+
+   private static void badge(class_332 var0, class_327 var1, String var2, int var3, int var4, int var5, int var6, int var7) {
+      fill(var0, var3, var4, var5, var6, -15394012);
+      border(var0, var3, var4, var5, var6, -9537657);
+      centerBox(var0, var1, var2, var3, var4 + 1, var5, var6, var7);
+   }
+
+   private static int tier(Object var0, Object var1) {
+      try {
+         Object var2 = call("handler", var0);
+         Object var3 = call("call", var2, "getDefinition", new Object[]{var1});
+         return Math.max(1, Math.min(3, num(invokeMember(var3, "tabletTier"))));
+      } catch (Exception var4) {
+         return 1;
+      }
+   }
+
+   private static void drawCosts(Object var0, class_332 var1, class_327 var2, int var3, int var4, boolean var5) {
+      List var6 = costs(var0, var5);
+      if (var6.isEmpty()) {
+         boolean var21 = var5 && (!selectedTransfer(var0).isEmpty() || !selectedCurses(var0).isEmpty());
+         boolean var22 = !empty(var5 ? source(var0) : equipment(var0));
+         String var23;
+         if (var5 && !var21) {
+            var23 = "Select enchantments to transfer";
+         } else if (var5 || var22 && selected(var0) != null) {
+            var23 = "No material cost required";
+         } else {
+            var23 = "Select an enchantment";
+         }
+
+         centerBox(var1, var2, var23, var3 - 14, var4 + 12, 176, 18, -8945783);
+         if (var21 && xp(var0, true) > 0 && st(var0).failedSections.add("empty-selected-transfer-quote")) {
             try {
-                Field field = clazz.getDeclaredField(string);
-                field.setAccessible(true);
-                return field;
+               Object var24 = call("handler", var0);
+               Object var26 = call("call", var24, "getTransmutationCosts", new Object[0]);
+               Object var28 = call("call", var26, "unitMaterials", new Object[0]);
+               System.err
+                  .println(
+                     "[Runic Classic Refined] Server-synced transfer quote is empty for "
+                        + selectedTransfer(var0).size()
+                        + " selected runes; unitMaterials="
+                        + var28
+                        + ". No material costs will be fabricated."
+                  );
+            } catch (Throwable var19) {
+               System.err.println("[Runic Classic Refined] Transfer quote diagnostics: " + var19);
             }
-            catch (NoSuchFieldException noSuchFieldException) {
-                continue;
-            }
-        }
-        throw new NoSuchFieldException(string);
-    }
+         }
 
-    private static Object get(Object object, String string) {
-        try {
-            return object == null ? null : RunicRefinedClassicUi.fld(object, string).get(object);
-        }
-        catch (Exception exception) {
-            return null;
-        }
-    }
-
-    private static void set(Object object, String string, Object object2) {
-        try {
-            RunicRefinedClassicUi.fld(object, string).set(object, object2);
-        }
-        catch (Exception exception) {
-            throw new IllegalStateException("Field " + string, exception);
-        }
-    }
-
-    private static int num(Object object) {
-        int n;
-        if (object instanceof Number) {
-            Number number = (Number)object;
-            n = number.intValue();
-        } else {
-            n = 0;
-        }
-        return n;
-    }
-
-    private static long lng(Object object) {
-        long l;
-        if (object instanceof Number) {
-            Number number = (Number)object;
-            l = number.longValue();
-        } else {
-            l = 0L;
-        }
-        return l;
-    }
-
-    private static int x(Object object) {
-        return (Integer)RunicRefinedClassicUi.call("x", object);
-    }
-
-    private static int y(Object object) {
-        return (Integer)RunicRefinedClassicUi.call("y", object);
-    }
-
-    private static int ax(Object object) {
-        return RunicRefinedClassicUi.x(object) + -16;
-    }
-
-    private static int ay(Object object) {
-        return RunicRefinedClassicUi.y(object) + -12;
-    }
-
-    private static boolean trans(Object object) {
-        return Boolean.TRUE.equals(RunicRefinedClassicUi.call("trans", object));
-    }
-
-    private static boolean empty(Object object) {
-        return Boolean.TRUE.equals(RunicRefinedClassicUi.call("empty", object));
-    }
-
-    private static Object source(Object object) {
-        return RunicRefinedClassicUi.call("source", object);
-    }
-
-    private static Object target(Object object) {
-        return RunicRefinedClassicUi.call("target", object);
-    }
-
-    private static Object equipment(Object object) {
-        return RunicRefinedClassicUi.call("equipment", object);
-    }
-
-    private static Object selected(Object object) {
-        return RunicRefinedClassicUi.call("current", object);
-    }
-
-    private static class_327 font(Object object) {
-        return (class_327)RunicRefinedClassicUi.call("font", object);
-    }
-
-    private static List<?> all(Object object) {
-        return (List)RunicRefinedClassicUi.call("filtered", object);
-    }
-
-    private static List<?> transferIds(Object object) {
-        return (List)RunicRefinedClassicUi.call("transferIds", object);
-    }
-
-    private static Set<?> selectedTransfer(Object object) {
-        return (Set)RunicRefinedClassicUi.call("transfers", object);
-    }
-
-    private static Set<?> selectedCurses(Object object) {
-        return (Set)RunicRefinedClassicUi.call("curses", object);
-    }
-
-    private static Map<?, Integer> enchants(Object object) {
-        return (Map)RunicRefinedClassicUi.call("enchants", object);
-    }
-
-    private static List<?> costs(Object object, boolean bl) {
-        List list;
-        block9: {
-            list = (List)RunicRefinedClassicUi.call("costs", object, bl);
-            if (!list.isEmpty()) {
-                return list;
-            }
+         if (!var5
+            && var22
+            && selected(var0) != null
+            && xp(var0, false) > 0
+            && st(var0).failedSections.add("empty-attunement-quote-" + selected(var0) + "-" + num(enchants(equipment(var0)).get(selected(var0))))) {
             try {
-                List list2;
-                if (!bl) {
-                    List list3;
-                    Object object2 = RunicRefinedClassicUi.selected(object);
-                    Object object3 = RunicRefinedClassicUi.equipment(object);
-                    if (object2 == null || RunicRefinedClassicUi.empty(object3)) {
-                        return list;
-                    }
-                    Object t = RunicRefinedClassicUi.call("handler", object);
-                    Object t2 = RunicRefinedClassicUi.call("call", t, "getDefinition", new Object[]{object2});
-                    if (t2 == null) {
-                        return list;
-                    }
-                    int n = RunicRefinedClassicUi.num(RunicRefinedClassicUi.enchants(object3).get(object2)) + 1;
-                    Object t3 = RunicRefinedClassicUi.call("call", t, "getClientCosts", new Object[]{t2, n});
-                    if (t3 instanceof List && !(list3 = (List)t3).isEmpty()) {
-                        return list3;
-                    }
-                    return list;
-                }
-                if (RunicRefinedClassicUi.selectedTransfer(object).isEmpty() && RunicRefinedClassicUi.selectedCurses(object).isEmpty()) {
-                    return list;
-                }
-                Object t = RunicRefinedClassicUi.call("handler", object);
-                Class<?> clazz = Class.forName("dev.runicattunement.transmutation.TransmutationRules");
-                Object t4 = RunicRefinedClassicUi.call("call", clazz, "calculateCosts", new Object[]{RunicRefinedClassicUi.source(object), RunicRefinedClassicUi.target(object), RunicRefinedClassicUi.call("call", t, "getDefinitions", new Object[0]), RunicRefinedClassicUi.selectedTransfer(object), RunicRefinedClassicUi.selectedCurses(object), RunicRefinedClassicUi.call("call", t, "getTransmutationCosts", new Object[0]), RunicRefinedClassicUi.call("call", t, "getTransmutationSettings", new Object[0])});
-                if (t4 instanceof List && !(list2 = (List)t4).isEmpty()) {
-                    return list2;
-                }
+               Object var25 = call("handler", var0);
+               Object var27 = call("call", var25, "data", new Object[0]);
+               Object var29 = call("call", var27, "universalCosts", new Object[0]);
+               System.err
+                  .println(
+                     "[Runic Classic Refined] Attunement quote empty for "
+                        + selected(var0)
+                        + "; synced universalCosts="
+                        + var29
+                        + ". No material costs will be fabricated."
+                  );
+            } catch (Throwable var18) {
+               System.err.println("[Runic Classic Refined] Attunement quote diagnostics: " + var18);
             }
-            catch (Throwable throwable) {
-                String string;
-                State state = RunicRefinedClassicUi.st(object);
-                String string2 = string = bl ? "direct-transmutation-cost-quote" : "direct-attunement-cost-quote";
-                if (!state.failedSections.add(string)) break block9;
-                System.err.println("[Runic Classic Refined] Could not read server-synchronised material quote: " + String.valueOf(throwable));
-                throwable.printStackTrace();
+         }
+      } else {
+         Object var7 = call("state", var0);
+         byte var8 = 8;
+         int var9 = Math.max(0, var6.size() - var8);
+         int var10 = Math.max(0, Math.min(var9, num(get(var7, "costScroll"))));
+
+         for (int var11 = 0; var11 < var8 && var11 + var10 < var6.size(); var11++) {
+            Object var12 = var6.get(var11 + var10);
+            Object var13 = itemFor(invokeMember(var12, "itemId"));
+            int var14 = var3 + var11 % 4 * 37 + costRowInset(var6, var10, var11);
+            int var15 = var4 + 3 + var11 / 4 * 29;
+            fill(var1, var14 - 1, var15 - 1, 18, 18, -12498862);
+            fill(var1, var14, var15, 16, 16, -14341068);
+            if (var13 instanceof class_1792 var16) {
+               try {
+                  var1.method_51427(new class_1799(var16), var14, var15);
+               } catch (Throwable var20) {
+                  if (st(var0).failedSections.add("material-icon")) {
+                     System.err.println("[Runic Classic Refined] Could not render a material item icon: " + var20);
+                     var20.printStackTrace();
+                  }
+               }
             }
-        }
-        return list;
-    }
 
-    private static int xp(Object object, boolean bl) {
-        return (Integer)RunicRefinedClassicUi.call("xp", object, bl);
-    }
+            String var30 = "×" + num(invokeMember(var12, "count"));
+            text(var1, var2, fitPixels(var2, var30, 22), var14 + 17, var15 + 4, -2565411);
+         }
 
-    private static boolean allowed(Object object, boolean bl) {
-        return Boolean.TRUE.equals(RunicRefinedClassicUi.call("allowed", object, bl));
-    }
+         if (var6.size() > var8) {
+            scroll(var1, var3 + 153, var4 + 1, 3, 49, var10, var9);
+         }
+      }
+   }
 
-    private static String nice(Object object) {
-        if (object == null) {
-            return "\u2014";
-        }
-        try {
-            String string = (String)RunicRefinedClassicUi.call("naturalName", object, 0);
-            return string == null ? String.valueOf(object) : string;
-        }
-        catch (Throwable throwable) {
-            return String.valueOf(object);
-        }
-    }
+   private static Object invokeMember(Object var0, String var1) {
+      try {
+         return var0.getClass().getMethod(var1).invoke(var0);
+      } catch (Exception var3) {
+         return null;
+      }
+   }
 
-    private static void fill(class_332 class_3322, int n, int n2, int n3, int n4, int n5) {
-        if (n3 > 0 && n4 > 0) {
-            class_3322.method_25294(n, n2, n + n3, n2 + n4, n5);
-        }
-    }
+   private static String roman(int var0) {
+      if (var0 <= 0) {
+         return "—";
+      } else {
+         return var0 > 10 ? String.valueOf(var0) : new String[]{"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"}[var0];
+      }
+   }
 
-    private static void border(class_332 class_3322, int n, int n2, int n3, int n4, int n5) {
-        RunicRefinedClassicUi.fill(class_3322, n, n2, n3, 1, n5);
-        RunicRefinedClassicUi.fill(class_3322, n, n2 + n4 - 1, n3, 1, n5);
-        RunicRefinedClassicUi.fill(class_3322, n, n2, 1, n4, n5);
-        RunicRefinedClassicUi.fill(class_3322, n + n3 - 1, n2, 1, n4, n5);
-    }
+   private static void scroll(class_332 var0, int var1, int var2, int var3, int var4, int var5, int var6) {
+      fill(var0, var1, var2, var3, var4, -15525858);
+      fill(var0, var1 + 1, var2 + 1, var3 - 2, var4 - 2, -13354171);
+      int var7 = var6 == 0 ? var4 - 2 : Math.max(14, var4 / (var6 + 1));
+      int var8 = var6 == 0 ? 0 : (var4 - var7 - 2) * var5 / var6;
+      fill(var0, var1 + 1, var2 + 1 + var8, var3 - 2, var7, var6 == 0 ? -10656658 : -6059838);
+   }
 
-    private static void text(class_332 class_3322, class_327 class_3272, String string, int n, int n2, int n3) {
-        class_3322.method_51433(class_3272, string, n, n2, n3, false);
-    }
+   private static void emitRing(class_332 var0, int var1, int var2, float var3, int var4, int var5) {
+      if (!(var3 < 0.0F) && !(var3 >= 1.0F)) {
+         double var6 = 14.0F + 44.0F * var3;
 
-    private static String fit(String string, int n) {
-        return string == null ? "" : (string.length() > n ? string.substring(0, Math.max(1, n - 1)) + "\u2026" : string);
-    }
+         for (int var8 = 0; var8 < 20; var8++) {
+            double var9 = var8 * 0.31415926535 + var3 * 5.7 * var4;
+            int var11 = var1 + (int)Math.round(Math.cos(var9) * (var6 + var8 % 4));
+            int var12 = var2 + (int)Math.round(Math.sin(var9) * (var6 + var8 % 4));
+            fill(var0, var11, var12, 2, 2, var8 % 5 == 0 ? -992853 : var5);
+         }
+      }
+   }
 
-    private static int width(class_327 class_3272, String string) {
-        return class_3272.method_1727(string);
-    }
+   private static void drawFX(Object var0, class_332 var1, int var2, int var3) {
+      Object var4 = call("state", var0);
+      RunicRefinedClassicUi.State var5 = st(var0);
+      long var6 = lng(get(var4, "pulseStart"));
+      long var8 = System.nanoTime();
+      if (var6 > 0L && var6 != var5.lastPulseStart) {
+         var5.lastPulseStart = var6;
+         var5.pulses.addLast(new RunicRefinedClassicUi.Pulse(var6, String.valueOf(get(var4, "pulseKind"))));
 
-    private static void centered(class_332 class_3322, class_327 class_3272, String string, int n, int n2, int n3) {
-        RunicRefinedClassicUi.text(class_3322, class_3272, string, n - RunicRefinedClassicUi.width(class_3272, string) / 2, n2, n3);
-    }
+         while (var5.pulses.size() > 32) {
+            var5.pulses.removeFirst();
+         }
+      }
 
-    private static void centerBox(class_332 class_3322, class_327 class_3272, String string, int n, int n2, int n3, int n4, int n5) {
-        RunicRefinedClassicUi.text(class_3322, class_3272, string, n + (n3 - RunicRefinedClassicUi.width(class_3272, string)) / 2, n2 + (n4 - 9) / 2, n5);
-    }
+      while (!var5.pulses.isEmpty() && var8 - var5.pulses.peekFirst().start > 1350000000L) {
+         var5.pulses.removeFirst();
+      }
 
-    private static String fitPixels(class_327 class_3272, String string, int n) {
-        int n2;
-        if (string == null) {
-            return "";
-        }
-        if (RunicRefinedClassicUi.width(class_3272, string) <= n) {
-            return string;
-        }
-        int n3 = Math.max(0, n - RunicRefinedClassicUi.width(class_3272, "\u2026"));
-        for (n2 = string.length(); n2 > 0 && RunicRefinedClassicUi.width(class_3272, string.substring(0, n2)) > n3; --n2) {
-        }
-        return string.substring(0, n2) + "\u2026";
-    }
+      for (RunicRefinedClassicUi.Pulse var11 : var5.pulses) {
+         if (var11.start <= var8) {
+            float var12 = Math.max(0.0F, Math.min(1.0F, (float)(var8 - var11.start) / 1.35E9F));
+            String var13 = var11.kind.toLowerCase(Locale.ROOT);
+            int var14 = var13.contains("unravel") ? -2244987 : -4813598;
+            int var15 = var2 + 124;
+            int var16 = var2 + 547;
+            int var17 = var3 + 153;
+            if (var13.contains("trans")) {
+               emitRing(var1, var15, var17, var12 / 0.33F, 1, var14);
+               float var18 = (var12 - 0.18F) / 0.58F;
+               if (var18 >= 0.0F && var18 <= 1.14F) {
+                  for (int var19 = 0; var19 < 20; var19++) {
+                     float var20 = var18 - var19 * 0.017F;
+                     if (!(var20 < 0.0F) && !(var20 > 1.0F)) {
+                        int var21 = var15 + (int)(423.0F * var20);
+                        int var22 = (int)(7.0 * Math.sin(var20 * 11.5 + var19 * 0.48));
+                        fill(var1, var21, var17 + var22, 2, 2, var19 % 4 == 0 ? -665692 : var14);
+                     }
+                  }
+               }
 
-    private static boolean inside(double d, double d2, int n, int n2, int n3, int n4) {
-        return d >= (double)n && d2 >= (double)n2 && d < (double)(n + n3) && d2 < (double)(n2 + n4);
-    }
-
-    private static boolean hover(Object object, int n, int n2, int n3, int n4) {
-        State state = RunicRefinedClassicUi.st(object);
-        return RunicRefinedClassicUi.inside(state.mouseX, state.mouseY, RunicRefinedClassicUi.ax(object) + n, RunicRefinedClassicUi.ay(object) + n2, n3, n4);
-    }
-
-    private static void button(class_332 class_3322, class_327 class_3272, String string, int n, int n2, int n3, int n4, boolean bl, boolean bl2, int n5) {
-        RunicRefinedClassicUi.fill(class_3322, n, n2, n3, n4, -15526116);
-        RunicRefinedClassicUi.fill(class_3322, n + 1, n2 + 1, n3 - 2, n4 - 2, bl ? (bl2 ? -11188384 : -12567753) : -14013134);
-        RunicRefinedClassicUi.border(class_3322, n, n2, n3, n4, bl ? (bl2 ? -1983106 : -7572401) : -11512740);
-        RunicRefinedClassicUi.fill(class_3322, n + 2, n2 + 1, n3 - 4, 1, bl ? n5 : -12499378);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, string, n, n2 + 1, n3, n4, bl ? (bl2 ? -666456 : -2565411) : -9670022);
-    }
-
-    private static void tabButton(class_332 class_3322, class_327 class_3272, String string, int n, int n2, int n3, int n4, boolean bl, boolean bl2) {
-        int n5;
-        int n6;
-        int n7 = bl ? -11452321 : (n6 = bl2 ? -10530501 : -13354946);
-        int n8 = bl ? -4220196 : (n5 = bl2 ? -1720965 : -9472640);
-        int n9 = bl ? -8004 : (bl2 ? -7505 : -4802113);
-        RunicRefinedClassicUi.fill(class_3322, n, n2, n3, n4, -15657959);
-        RunicRefinedClassicUi.fill(class_3322, n + 1, n2 + 1, n3 - 2, n4 - 2, n6);
-        RunicRefinedClassicUi.border(class_3322, n, n2, n3, n4, n5);
-        RunicRefinedClassicUi.fill(class_3322, n + 2, n2 + 2, n3 - 4, 1, bl ? -4814117 : (bl2 ? -997748 : -10327949));
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, string, n, n2 + 1, n3, n4, n9);
-    }
-
-    private static void switchSound() {
-        try {
-            class_3414 class_34142 = class_3414.method_47908((class_2960)new class_2960("minecraft", "ui.button.click"));
-            class_1109 class_11092 = class_1109.method_4758((class_3414)class_34142, (float)1.06f);
-            class_310.method_1551().method_1483().method_4873((class_1113)class_11092);
-        }
-        catch (Throwable throwable) {
-            // empty catch block
-        }
-    }
-
-    private static void switchFx(Object object) {
-        RunicRefinedClassicUi.st((Object)object).tabFxStart = System.nanoTime();
-        RunicRefinedClassicUi.switchSound();
-    }
-
-    private static void drawSwitchFx(Object object, class_332 class_3322, int n, int n2) {
-        long l = System.nanoTime() - RunicRefinedClassicUi.st((Object)object).tabFxStart;
-        if (l < 0L || l > 420000000L || RunicRefinedClassicUi.st((Object)object).tabFxStart == 0L) {
-            return;
-        }
-        float f = (float)l / 4.2E8f;
-        int n3 = n + (RunicRefinedClassicUi.trans(object) ? 515 : 378);
-        int n4 = n2 + 25;
-        int n5 = RunicRefinedClassicUi.trans(object) ? 130 : 129;
-        int n6 = 28;
-        int n7 = f < 0.35f ? -1787398 : -4812331;
-        for (int i = 0; i < 6; ++i) {
-            float f2 = ((float)i / 6.0f + f * 0.7f) % 1.0f;
-            int n8 = n3 + 3 + (int)((float)(n5 - 6) * f2);
-            int n9 = i % 2 == 0 ? n4 + 2 : n4 + n6 - 4;
-            RunicRefinedClassicUi.fill(class_3322, n8, n9, 2, 2, i % 3 == 0 ? -1195647 : n7);
-        }
-    }
-
-    private static void filterButton(class_332 class_3322, class_327 class_3272, String string, int n, int n2, int n3, int n4, boolean bl, boolean bl2) {
-        RunicRefinedClassicUi.fill(class_3322, n, n2, n3, n4, -15526116);
-        RunicRefinedClassicUi.fill(class_3322, n + 1, n2 + 1, n3 - 2, n4 - 2, bl ? -11058325 : (bl2 ? -11845565 : -12567753));
-        RunicRefinedClassicUi.border(class_3322, n, n2, n3, n4, bl ? -5733944 : -7506354);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, string, n, n2 + 1, n3, n4, bl ? -665423 : -7695202);
-    }
-
-    private static void tex(class_332 class_3322, class_2960 class_29602, int n, int n2, int n3, int n4) {
-        class_3322.method_25290(class_29602, n, n2, 0.0f, 0.0f, n3, n4, n3, n4);
-    }
-
-    private static void searchPos(Object object, int n, int n2, int n3) {
-        if (object == null) {
-            return;
-        }
-        for (String[] stringArray : new String[][]{{"method_46421", String.valueOf(n)}, {"method_46419", String.valueOf(n2)}}) {
-            boolean bl = false;
-            for (Method method : object.getClass().getMethods()) {
-                if (!method.getName().equals(stringArray[0]) || method.getParameterCount() != 1) continue;
-                try {
-                    method.invoke(object, Integer.parseInt(stringArray[1]));
-                    bl = true;
-                    break;
-                }
-                catch (Exception exception) {
-                    // empty catch block
-                }
-            }
-            if (bl) continue;
-            throw new IllegalStateException("Search field move: " + stringArray[0]);
-        }
-        RunicRefinedClassicUi.set(object, "field_22758", n3);
-    }
-
-    public static void relayout(Object object) {
-        if (!RunicGrimoireUi.active(object)) {
-            return;
-        }
-        try {
-            List list = (List)RunicRefinedClassicUi.call("slots", object);
-            int n = RunicRefinedClassicUi.ax(object);
-            int n2 = RunicRefinedClassicUi.ay(object);
-            int n3 = RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(object, "field_2776"));
-            int n4 = RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(object, "field_2800"));
-            boolean bl = RunicRefinedClassicUi.trans(object);
-            for (int i = 0; i < list.size(); ++i) {
-                int n5 = -5000;
-                int n6 = -5000;
-                if (i == 0) {
-                    n5 = n + 124 - 8;
-                    n6 = n2 + 153 - 8;
-                } else if (i == 1 && bl) {
-                    n5 = n + 547 - 8;
-                    n6 = n2 + 153 - 8;
-                } else if (i >= 2 && i < 38) {
-                    int n7 = i - 2;
-                    int n8 = n7 < 27 ? n7 / 9 : 3;
-                    int n9 = n7 < 27 ? n7 % 9 : n7 - 27;
-                    n5 = n + 255 + 18 * n9;
-                    n6 = n2 + 270 + 18 * n8 + (n8 == 3 ? 8 : 0);
-                }
-                RunicRefinedClassicUi.set(list.get(i), "field_7873", n5 - n3);
-                RunicRefinedClassicUi.set(list.get(i), "field_7872", n6 - n4);
-            }
-            Object object2 = RunicRefinedClassicUi.get(object, "searchField");
-            if (object2 != null) {
-                RunicRefinedClassicUi.searchPos(object2, n + (bl ? -5000 : 458), n2 + (bl ? -5000 : 100), 177);
-            }
-        }
-        catch (Throwable throwable) {
-            RunicRefinedClassicUi.error(object, "relayout", throwable);
-        }
-    }
-
-    private static void error(Object object, String string, Throwable throwable) {
-        if (!RunicRefinedClassicUi.st((Object)object).warned) {
-            RunicRefinedClassicUi.st((Object)object).warned = true;
-            System.err.println("[Runic Classic Refined] " + string + ": " + String.valueOf(throwable));
-            throwable.printStackTrace();
-        }
-    }
-
-    public static boolean background(Object object, class_332 class_3322, float f, int n, int n2) {
-        if (!RunicGrimoireUi.active(object)) {
-            return false;
-        }
-        try {
-            RunicGrimoireUi.prepare(object);
-            RunicRefinedClassicUi.st((Object)object).mouseX = n;
-            RunicRefinedClassicUi.st((Object)object).mouseY = n2;
-            Object t = RunicRefinedClassicUi.call("state", object);
-            RunicRefinedClassicUi.set(t, "mouseX", n);
-            RunicRefinedClassicUi.set(t, "mouseY", n2);
-            int n3 = RunicRefinedClassicUi.ax(object);
-            int n4 = RunicRefinedClassicUi.ay(object);
-            RunicRefinedClassicUi.tex(class_3322, RunicRefinedClassicUi.trans(object) ? BG_TRANS : BG, n3, n4, 672, 390);
-            boolean bl = RunicRefinedClassicUi.trans(object);
-            Object object2 = bl ? RunicRefinedClassicUi.source(object) : RunicRefinedClassicUi.equipment(object);
-            RunicRefinedClassicUi.seal(class_3322, n3 + 124, n4 + 153, !RunicRefinedClassicUi.empty(object2), 0, object);
-            if (bl) {
-                RunicRefinedClassicUi.seal(class_3322, n3 + 547, n4 + 153, !RunicRefinedClassicUi.empty(RunicRefinedClassicUi.target(object)), 1, object);
-            }
-            for (int i = 0; i < 36; ++i) {
-                int n5 = i < 27 ? i / 9 : 3;
-                int n6 = i < 27 ? i % 9 : i - 27;
-                int n7 = n3 + 255 + n6 * 18;
-                int n8 = n4 + 270 + n5 * 18 + (n5 == 3 ? 8 : 0);
-                RunicRefinedClassicUi.fill(class_3322, n7 - 1, n8 - 1, 18, 18, -11576987);
-                RunicRefinedClassicUi.fill(class_3322, n7, n8, 16, 16, -14341325);
-            }
-            RunicRefinedClassicUi.relayout(object);
-            return true;
-        }
-        catch (Throwable throwable) {
-            RunicRefinedClassicUi.error(object, "background", throwable);
-            return false;
-        }
-    }
-
-    private static Object[] glyphs() {
-        Object[] objectArray = runeSigils;
-        if (objectArray != null) {
-            return objectArray;
-        }
-        try {
-            Field field = RunicGrimoireUi.class.getDeclaredField("CACHED_SIGILS");
-            field.setAccessible(true);
-            runeSigils = (Object[])field.get(null);
-        }
-        catch (Throwable throwable) {
-            runeSigils = new Object[0];
-        }
-        return runeSigils;
-    }
-
-    private static void seal(class_332 class_3322, int n, int n2, boolean bl, int n3, Object object) {
-        RunicRefinedClassicUi.tex(class_3322, bl ? RUNE_ON : RUNE_OFF, n - 56, n2 - 56, 112, 112);
-        Object[] objectArray = RunicRefinedClassicUi.glyphs();
-        if (objectArray.length == 0) {
-            return;
-        }
-        double d = (double)System.nanoTime() / 1.0E9;
-        double d2 = d * (bl ? 0.28 : 0.065) * (double)(n3 == 0 ? 1 : -1);
-        for (int i = 0; i < 13; ++i) {
-            double d3 = Math.PI * 2 * (double)i / 13.0 + d2 + (double)n3 * 0.19;
-            int n4 = n + (int)Math.round(56.0 * Math.cos(d3)) - 3;
-            int n5 = n2 + (int)Math.round(56.0 * Math.sin(d3)) - 4;
-            int n6 = Math.floorMod(n3 * 7 + i * 11 + i * i * 3, objectArray.length);
-            Object object2 = objectArray[n6];
-            if (!(object2 instanceof class_2561)) continue;
-            class_2561 class_25612 = (class_2561)object2;
-            int n7 = bl ? (i % 3 == 0 ? -1063545 : -4219931) : (i % 3 == 0 ? -8951684 : -10331279);
-            class_3322.method_27534(RunicRefinedClassicUi.font(object), class_25612, n4, n5, n7);
-        }
-    }
-
-    public static boolean foreground(Object object, class_332 class_3322) {
-        if (!RunicGrimoireUi.active(object)) {
-            return false;
-        }
-        try {
-            class_327 class_3272 = RunicRefinedClassicUi.font(object);
-            int n = RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(object, "field_2776"));
-            int n2 = RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(object, "field_2800"));
-            int n3 = RunicRefinedClassicUi.ax(object) - n;
-            int n4 = RunicRefinedClassicUi.ay(object) - n2;
-            boolean bl = RunicRefinedClassicUi.trans(object);
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, "RUNIC ATTUNEMENT TABLE", n3 + 28, n4 + 25, 341, 28, -3563153);
-            RunicRefinedClassicUi.tabButton(class_3322, class_3272, "ATTUNEMENT", n3 + 378, n4 + 25, 129, 28, !bl, RunicRefinedClassicUi.hover(object, 378, 25, 129, 28));
-            RunicRefinedClassicUi.tabButton(class_3322, class_3272, "TRANSMUTATION", n3 + 515, n4 + 25, 130, 28, bl, RunicRefinedClassicUi.hover(object, 515, 25, 130, 28));
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, bl ? "SOURCE EQUIPMENT" : "EQUIPMENT", n3 + 34, n4 + 72, 179, 20, -3563153);
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, bl ? "TRANSMUTATION" : "ATTUNEMENT", n3 + 247, n4 + 72, 176, 20, -3563153);
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, bl ? "TARGET EQUIPMENT" : "ATTUNEMENT TOME", n3 + 457, n4 + 72, 181, 20, -3563153);
-            if (bl) {
-                RunicRefinedClassicUi.drawTransmutation(object, class_3322, class_3272, n3, n4);
+               emitRing(var1, var16, var17, (var12 - 0.64F) / 0.36F, -1, -2049808);
             } else {
-                RunicRefinedClassicUi.drawAttunement(object, class_3322, class_3272, n3, n4);
+               emitRing(var1, var15, var17, var12, var13.contains("unravel") ? -1 : 1, var14);
             }
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, "INVENTORY", n3 + 246, n4 + 253, 177, 15, -3563153);
-            RunicRefinedClassicUi.drawFX(object, class_3322, n3, n4);
-            RunicRefinedClassicUi.drawSwitchFx(object, class_3322, n3, n4);
-            RunicRefinedClassicUi.drawInfoPopup(object, class_3322, class_3272, n3, n4);
-            return true;
-        }
-        catch (Throwable throwable) {
-            RunicRefinedClassicUi.error(object, "foreground", throwable);
-            return true;
-        }
-    }
+         }
+      }
+   }
 
-    private static void safely(Object object, String string, Runnable runnable) {
-        block2: {
-            try {
-                runnable.run();
+   private static void drawInfoPopup(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
+      Object var5 = call("state", var0);
+      String var6 = String.valueOf(get(var5, "infoEnchant"));
+      if (var6 != null && !var6.equals("null") && !var6.isEmpty()) {
+         String var7 = String.valueOf(get(var5, "infoTitle"));
+         String var8 = String.valueOf(get(var5, "infoDescription"));
+         if (var8.equals("null") || var8.isBlank()) {
+            var8 = "No description is available for this enchantment.";
+         }
+
+         int var9 = var3 + 243;
+         int var10 = var4 + 98;
+         short var11 = 394;
+         short var12 = 167;
+         fill(var1, var9 + 3, var10 + 3, var11, var12, -1157627904);
+         fill(var1, var9, var10, var11, var12, -15525600);
+         border(var1, var9, var10, var11, var12, -6519718);
+         fill(var1, var9 + 4, var10 + 4, var11 - 8, 23, -14341581);
+         border(var1, var9 + 4, var10 + 4, var11 - 8, 23, -9937811);
+         text(var1, var2, fitPixels(var2, var7, var11 - 58), var9 + 13, var10 + 12, -3563153);
+         button(var1, var2, "X", var9 + var11 - 26, var10 + 8, 18, 15, true, hover(var0, 243 + var11 - 26, 106, 18, 15), -5664921);
+         int var13 = var10 + 41;
+         int var14 = 0;
+         StringBuilder var15 = new StringBuilder();
+
+         for (String var19 : var8.replace('\n', ' ').split(" +")) {
+            if (!var19.isBlank()) {
+               String var20 = var15.length() == 0 ? var19 : var15 + " " + var19;
+               if (width(var2, var20) > var11 - 30 && var15.length() > 0) {
+                  text(var1, var2, var15.toString(), var9 + 14, var13, -2565411);
+                  var13 += 15;
+                  var14++;
+                  var15.setLength(0);
+               }
+
+               if (width(var2, var19) > var11 - 30) {
+                  var19 = fitPixels(var2, var19, var11 - 30);
+               }
+
+               if (var15.length() > 0) {
+                  var15.append(' ');
+               }
+
+               var15.append(var19);
+               if (var14 >= 7) {
+                  break;
+               }
             }
-            catch (Throwable throwable) {
-                State state = RunicRefinedClassicUi.st(object);
-                if (!state.failedSections.add(string)) break block2;
-                System.err.println("[Runic Classic Refined] Foreground section '" + string + "' failed; other panels retained: " + String.valueOf(throwable));
-                throwable.printStackTrace();
-            }
-        }
-    }
+         }
 
-    private static void drawAttunement(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        RunicRefinedClassicUi.safely(object, "attunement-refresh", () -> RunicRefinedClassicUi.call("call", object, "syncAttunementCostState", new Object[0]));
-        RunicRefinedClassicUi.safely(object, "attunement-inscribed", () -> RunicRefinedClassicUi.drawAttunementInscribed(object, class_3322, class_3272, n, n2));
-        RunicRefinedClassicUi.safely(object, "attunement-costs-and-actions", () -> RunicRefinedClassicUi.drawAttunementCenter(object, class_3322, class_3272, n, n2));
-        RunicRefinedClassicUi.safely(object, "attunement-tome", () -> RunicRefinedClassicUi.drawAttunementCatalogue(object, class_3322, class_3272, n, n2));
-    }
+         if (var14 < 8 && var15.length() > 0) {
+            text(var1, var2, var15.toString(), var9 + 14, var13, -2565411);
+         }
+      }
+   }
 
-    private static void drawAttunementInscribed(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        Object object2 = RunicRefinedClassicUi.equipment(object);
-        Object object3 = RunicRefinedClassicUi.selected(object);
-        boolean bl = !RunicRefinedClassicUi.empty(object2);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, "INSCRIBED RUNES", n + 35, n2 + 220, 178, 18, -3563153);
-        Map<Object, Object> map = bl ? RunicRefinedClassicUi.enchants(object2) : Map.of();
-        int n3 = 0;
-        int n4 = Math.max(0, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(RunicRefinedClassicUi.call("state", object), "installedScroll")));
-        if (map.isEmpty()) {
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, bl ? "No enchantments" : "Insert equipment", n + 38, n2 + 247, 168, 20, -8945783);
-        }
-        for (Map.Entry<Object, Object> entry : map.entrySet()) {
-            if (n3++ < n4) continue;
-            int n5 = n3 - 1 - n4;
-            if (n5 >= 6) break;
-            int n6 = n2 + 244 + n5 * 17;
-            boolean bl2 = Objects.equals(object3, entry.getKey());
-            if (bl2) {
-                RunicRefinedClassicUi.fill(class_3322, n + 40, n6 - 1, 165, 15, -11649438);
-            }
-            RunicRefinedClassicUi.text(class_3322, class_3272, RunicRefinedClassicUi.fitPixels(class_3272, RunicRefinedClassicUi.nice(entry.getKey()), 129), n + 43, n6 + 2, bl2 ? -2565411 : -7695202);
-            RunicRefinedClassicUi.text(class_3322, class_3272, RunicRefinedClassicUi.roman(RunicRefinedClassicUi.num(entry.getValue())), n + 198 - RunicRefinedClassicUi.width(class_3272, RunicRefinedClassicUi.roman(RunicRefinedClassicUi.num(entry.getValue()))), n6 + 2, bl2 ? -3892498 : -3563153);
-        }
-        if (map.size() > 6) {
-            RunicRefinedClassicUi.text(class_3322, class_3272, "\u25be", n + 197, n2 + 337, -3892498);
-        }
-    }
+   private static int oldClick(Object var0, double var1, double var3, int var5) {
+      return call("classicLegacyClick", var0, x(var0) + var1, y(var0) + var3, var5);
+   }
 
-    private static void drawAttunementCenter(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        int n3;
-        Object object2 = RunicRefinedClassicUi.equipment(object);
-        Object object3 = RunicRefinedClassicUi.selected(object);
-        boolean bl = !RunicRefinedClassicUi.empty(object2);
-        boolean bl2 = bl && object3 != null;
-        int n4 = n3 = bl2 ? RunicRefinedClassicUi.num(RunicRefinedClassicUi.call("level", object)) : 0;
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, (String)(bl2 ? "LEVEL  " + (n3 > 0 ? RunicRefinedClassicUi.roman(n3) : "\u2014") + "  \u2192  " + RunicRefinedClassicUi.roman(n3 + 1) : "LEVEL  \u2014  \u2192  \u2014"), n + 249, n2 + 105, 172, 14, bl2 ? -3563153 : -8945783);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, "MATERIAL COSTS", n + 249, n2 + 121, 172, 13, -3563153);
-        RunicRefinedClassicUi.safely(object, "attunement-material-items", () -> RunicRefinedClassicUi.drawCosts(object, class_3322, class_3272, n + 262, n2 + 139, false));
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, (String)(bl2 ? "XP: " + RunicRefinedClassicUi.xp(object, false) : "XP: \u2014"), n + 249, n2 + 195, 172, 11, bl2 ? -3563153 : -8945783);
-        boolean bl3 = bl2 && RunicRefinedClassicUi.allowed(object, false);
-        boolean bl4 = bl2 && n3 > 0;
-        RunicRefinedClassicUi.button(class_3322, class_3272, "UNRAVEL", n + 248, n2 + 221, 83, 20, bl4, RunicRefinedClassicUi.hover(object, 248, 221, 83, 20), -5995835);
-        RunicRefinedClassicUi.button(class_3322, class_3272, "ATTUNE", n + 336, n2 + 221, 83, 20, bl3, RunicRefinedClassicUi.hover(object, 336, 221, 83, 20), -3562899);
-    }
+   public static int click(Object var0, double var1, double var3, int var5) {
+      if (!RunicGrimoireUi.active(var0)) {
+         return -1000;
+      }
 
-    private static void drawAttunementCatalogue(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        int n3;
-        int n4;
-        Object object2 = RunicRefinedClassicUi.selected(object);
-        for (int i = 0; i < 4; ++i) {
-            n4 = n + 453 + i * 47;
-            n3 = RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(object, "tierFilter"));
-            RunicRefinedClassicUi.filterButton(class_3322, class_3272, (new String[]{"ALL", "I", "II", "III"})[i], n4, n2 + 125, 43, 16, n3 == i, RunicRefinedClassicUi.hover(object, 453 + i * 47, 125, 43, 16));
-        }
-        List<?> list = RunicRefinedClassicUi.all(object);
-        n4 = Math.max(0, list.size() - 11);
-        n3 = Math.max(0, Math.min(n4, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(object, "scrollOffset"))));
-        for (int i = 0; i < 11 && n3 + i < list.size(); ++i) {
-            Object obj = list.get(n3 + i);
-            int n5 = n2 + 149 + i * 17;
-            boolean bl = Objects.equals(object2, obj);
-            boolean bl2 = RunicRefinedClassicUi.hover(object, 455, 149 + i * 17, 177, 17);
-            if (bl) {
-                RunicRefinedClassicUi.fill(class_3322, n + 455, n5, 177, 16, -11649438);
-            } else if (bl2) {
-                RunicRefinedClassicUi.fill(class_3322, n + 455, n5, 177, 16, -12300711);
-            }
-            RunicRefinedClassicUi.text(class_3322, class_3272, RunicRefinedClassicUi.fitPixels(class_3272, RunicRefinedClassicUi.nice(obj), 131), n + 459, n5 + 4, bl ? -929372 : -7695202);
-            RunicRefinedClassicUi.badge(class_3322, class_3272, "i", n + 594, n5 + 1, 15, 15, -7155500);
-            RunicRefinedClassicUi.badge(class_3322, class_3272, RunicRefinedClassicUi.roman(RunicRefinedClassicUi.tier(object, obj)), n + 613, n5 + 1, 19, 15, RunicRefinedClassicUi.tier(object, obj) == 3 ? -1918856 : -4021526);
-            if (!bl) continue;
-            RunicRefinedClassicUi.fill(class_3322, n + 455, n5, 2, 16, -5600296);
-        }
-        RunicRefinedClassicUi.scroll(class_3322, n + 636, n2 + 150, 4, 185, n3, n4);
-    }
+      int var6 = ax(var0);
+      int var7 = ay(var0);
+      double var8 = var1 - var6;
+      double var10 = var3 - var7;
+      if (!inside(var8, var10, 0, 0, 672, 390)) {
+         return -1000;
+      }
 
-    private static void drawTransmutation(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        RunicRefinedClassicUi.safely(object, "transmutation-refresh", () -> RunicRefinedClassicUi.call("call", object, "syncTransmutationState", new Object[0]));
-        RunicRefinedClassicUi.safely(object, "transmutation-source-list", () -> RunicRefinedClassicUi.drawTransmutationSource(object, class_3322, class_3272, n, n2));
-        RunicRefinedClassicUi.safely(object, "transmutation-result-preview", () -> RunicRefinedClassicUi.drawTransmutationResult(object, class_3322, class_3272, n, n2));
-        RunicRefinedClassicUi.safely(object, "transmutation-costs-and-actions", () -> RunicRefinedClassicUi.drawTransmutationCenter(object, class_3322, class_3272, n, n2));
-    }
+      Object var12 = call("state", var0);
+      Object var13 = get(var12, "infoEnchant");
+      if (var13 != null && !String.valueOf(var13).isEmpty()) {
+         set(var12, "infoEnchant", "");
+         return -20;
+      }
 
-    private static void drawTransmutationSource(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        Object object2 = RunicRefinedClassicUi.source(object);
-        Object object3 = RunicRefinedClassicUi.target(object);
-        List<?> list = RunicRefinedClassicUi.transferIds(object);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, "SOURCE ENCHANTMENTS", n + 35, n2 + 220, 178, 18, -3563153);
-        Object t = RunicRefinedClassicUi.call("state", object);
-        int n3 = Math.max(0, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(t, "sourceScroll")));
-        Set<?> set = RunicRefinedClassicUi.selectedTransfer(object);
-        Set<?> set2 = RunicRefinedClassicUi.selectedCurses(object);
-        for (int i = 0; i < 6 && i + n3 < list.size(); ++i) {
-            Object obj = list.get(i + n3);
-            int n4 = n2 + 244 + i * 17;
-            boolean bl = set.contains(obj) || set2.contains(obj);
-            RunicRefinedClassicUi.fill(class_3322, n + 41, n4 + 1, 11, 11, bl ? -9086820 : -14341583);
-            RunicRefinedClassicUi.border(class_3322, n + 41, n4 + 1, 11, 11, bl ? -3892498 : -7695202);
-            if (bl) {
-                RunicRefinedClassicUi.fill(class_3322, n + 45, n4 + 5, 3, 3, -3563153);
-            }
-            RunicRefinedClassicUi.text(class_3322, class_3272, RunicRefinedClassicUi.fitPixels(class_3272, RunicRefinedClassicUi.nice(obj), 101), n + 59, n4 + 3, bl ? -2565411 : -7695202);
-            RunicRefinedClassicUi.badge(class_3322, class_3272, "i", n + 166, n4, 15, 15, -7155500);
-            RunicRefinedClassicUi.badge(class_3322, class_3272, RunicRefinedClassicUi.roman(RunicRefinedClassicUi.tier(object, obj)), n + 185, n4, 18, 15, -3563153);
-        }
-        if (list.isEmpty()) {
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, RunicRefinedClassicUi.empty(object2) ? "Insert source item" : "No enchantments", n + 38, n2 + 248, 165, 20, -8945783);
-        }
-        if (list.size() > 6) {
-            RunicRefinedClassicUi.scroll(class_3322, n + 206, n2 + 244, 3, 100, n3, Math.max(0, list.size() - 6));
-        }
-    }
+      if (inside(var8, var10, 254, 269, 164, 86)) {
+         return -10;
+      }
 
-    private static void drawTransmutationResult(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        Object object2 = RunicRefinedClassicUi.source(object);
-        Object object3 = RunicRefinedClassicUi.target(object);
-        Set<?> set = RunicRefinedClassicUi.selectedTransfer(object);
-        Set<?> set2 = RunicRefinedClassicUi.selectedCurses(object);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, "RESULT PREVIEW", n + 453, n2 + 220, 185, 18, -3563153);
-        LinkedHashMap<Object, Integer> linkedHashMap = new LinkedHashMap<Object, Integer>();
-        linkedHashMap.putAll(RunicRefinedClassicUi.enchants(object3));
-        Map<?, Integer> map = RunicRefinedClassicUi.enchants(object2);
-        for (Object object4 : set) {
-            if (map.get(object4) == null) continue;
-            linkedHashMap.merge(object4, map.get(object4), Math::max);
-        }
-        for (Object object4 : set2) {
-            if (map.get(object4) == null) continue;
-            linkedHashMap.merge(object4, map.get(object4), Math::max);
-        }
-        int n3 = 0;
-        for (Map.Entry entry : linkedHashMap.entrySet()) {
-            if (n3 >= 6) break;
-            RunicRefinedClassicUi.text(class_3322, class_3272, RunicRefinedClassicUi.fitPixels(class_3272, RunicRefinedClassicUi.nice(entry.getKey()), 135), n + 464, n2 + 245 + n3 * 17, -7695202);
-            RunicRefinedClassicUi.text(class_3322, class_3272, RunicRefinedClassicUi.roman((Integer)entry.getValue()), n + 615, n2 + 245 + n3 * 17, -3563153);
-            ++n3;
-        }
-        if (n3 == 0) {
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, RunicRefinedClassicUi.empty(object3) ? "Insert target item" : "No resulting runes", n + 453, n2 + 248, 185, 20, -8945783);
-        }
-    }
+      if (!inside(var8, var10, 115, 144, 18, 18) && (!trans(var0) || !inside(var8, var10, 538, 144, 18, 18))) {
+         if (!trans(var0) && inside(var8, var10, 457, 99, 179, 22)) {
+            return -10;
+         }
 
-    private static void drawTransmutationCenter(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        List<?> list = RunicRefinedClassicUi.transferIds(object);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, "TRANSFER COST", n + 249, n2 + 105, 172, 14, -3563153);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, "MATERIALS", n + 249, n2 + 121, 172, 13, -3563153);
-        RunicRefinedClassicUi.safely(object, "transmutation-material-items", () -> RunicRefinedClassicUi.drawCosts(object, class_3322, class_3272, n + 262, n2 + 139, true));
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, "XP: " + RunicRefinedClassicUi.xp(object, true), n + 249, n2 + 195, 172, 11, -3563153);
-        RunicRefinedClassicUi.button(class_3322, class_3272, "SELECT ALL", n + 248, n2 + 216, 83, 15, !list.isEmpty(), RunicRefinedClassicUi.hover(object, 248, 216, 83, 15), -4879390);
-        RunicRefinedClassicUi.button(class_3322, class_3272, "CLEAR", n + 336, n2 + 216, 83, 15, !list.isEmpty(), RunicRefinedClassicUi.hover(object, 336, 216, 83, 15), -5668275);
-        RunicRefinedClassicUi.button(class_3322, class_3272, "TRANSMUTE", n + 248, n2 + 234, 171, 15, RunicRefinedClassicUi.allowed(object, true), RunicRefinedClassicUi.hover(object, 248, 234, 171, 15), -4879390);
-    }
-
-    private static Object itemFor(Object object) {
-        if (!(object instanceof class_2960)) {
-            return null;
-        }
-        class_2960 class_29602 = (class_2960)object;
-        return class_7923.field_41178.method_17966(class_29602).orElse(null);
-    }
-
-    private static void badge(class_332 class_3322, class_327 class_3272, String string, int n, int n2, int n3, int n4, int n5) {
-        RunicRefinedClassicUi.fill(class_3322, n, n2, n3, n4, -15394012);
-        RunicRefinedClassicUi.border(class_3322, n, n2, n3, n4, -9537657);
-        RunicRefinedClassicUi.centerBox(class_3322, class_3272, string, n, n2 + 1, n3, n4, n5);
-    }
-
-    private static int tier(Object object, Object object2) {
-        try {
-            Object t = RunicRefinedClassicUi.call("handler", object);
-            Object t2 = RunicRefinedClassicUi.call("call", t, "getDefinition", new Object[]{object2});
-            return Math.max(1, Math.min(3, RunicRefinedClassicUi.num(RunicRefinedClassicUi.invokeMember(t2, "tabletTier"))));
-        }
-        catch (Exception exception) {
-            return 1;
-        }
-    }
-
-    private static void drawCosts(Object object, class_332 class_3322, class_327 class_3272, int n, int n2, boolean bl) {
-        List<?> list = RunicRefinedClassicUi.costs(object, bl);
-        if (list.isEmpty()) {
-            Object t;
-            Object t2;
-            Object t3;
-            boolean bl2;
-            boolean bl3 = bl && (!RunicRefinedClassicUi.selectedTransfer(object).isEmpty() || !RunicRefinedClassicUi.selectedCurses(object).isEmpty());
-            boolean bl4 = bl2 = !RunicRefinedClassicUi.empty(bl ? RunicRefinedClassicUi.source(object) : RunicRefinedClassicUi.equipment(object));
-            String string = bl && !bl3 ? "Select enchantments to transfer" : (!bl && (!bl2 || RunicRefinedClassicUi.selected(object) == null) ? "Select an enchantment" : "No material cost required");
-            RunicRefinedClassicUi.centerBox(class_3322, class_3272, string, n - 14, n2 + 12, 176, 18, -8945783);
-            if (bl3 && RunicRefinedClassicUi.xp(object, true) > 0 && RunicRefinedClassicUi.st((Object)object).failedSections.add("empty-selected-transfer-quote")) {
-                try {
-                    t3 = RunicRefinedClassicUi.call("handler", object);
-                    t2 = RunicRefinedClassicUi.call("call", t3, "getTransmutationCosts", new Object[0]);
-                    t = RunicRefinedClassicUi.call("call", t2, "unitMaterials", new Object[0]);
-                    System.err.println("[Runic Classic Refined] Server-synced transfer quote is empty for " + RunicRefinedClassicUi.selectedTransfer(object).size() + " selected runes; unitMaterials=" + String.valueOf(t) + ". No material costs will be fabricated.");
-                }
-                catch (Throwable throwable) {
-                    System.err.println("[Runic Classic Refined] Transfer quote diagnostics: " + String.valueOf(throwable));
-                }
-            }
-            if (!bl && bl2 && RunicRefinedClassicUi.selected(object) != null && RunicRefinedClassicUi.xp(object, false) > 0 && RunicRefinedClassicUi.st((Object)object).failedSections.add("empty-attunement-quote-" + String.valueOf(RunicRefinedClassicUi.selected(object)) + "-" + RunicRefinedClassicUi.num(RunicRefinedClassicUi.enchants(RunicRefinedClassicUi.equipment(object)).get(RunicRefinedClassicUi.selected(object))))) {
-                try {
-                    t3 = RunicRefinedClassicUi.call("handler", object);
-                    t2 = RunicRefinedClassicUi.call("call", t3, "data", new Object[0]);
-                    t = RunicRefinedClassicUi.call("call", t2, "universalCosts", new Object[0]);
-                    System.err.println("[Runic Classic Refined] Attunement quote empty for " + String.valueOf(RunicRefinedClassicUi.selected(object)) + "; synced universalCosts=" + String.valueOf(t) + ". No material costs will be fabricated.");
-                }
-                catch (Throwable throwable) {
-                    System.err.println("[Runic Classic Refined] Attunement quote diagnostics: " + String.valueOf(throwable));
-                }
-            }
-            return;
-        }
-        Object t = RunicRefinedClassicUi.call("state", object);
-        int n3 = 8;
-        int n4 = Math.max(0, list.size() - n3);
-        int n5 = Math.max(0, Math.min(n4, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(t, "costScroll"))));
-        for (int i = 0; i < n3 && i + n5 < list.size(); ++i) {
-            Object object2;
-            int n6;
-            int n7;
-            Object obj;
-            block12: {
-                obj = list.get(i + n5);
-                Object object3 = RunicRefinedClassicUi.itemFor(RunicRefinedClassicUi.invokeMember(obj, "itemId"));
-                n7 = n + i % 4 * 37 + RunicRefinedClassicUi.costRowInset(list, n5, i);
-                n6 = n2 + 3 + i / 4 * 29;
-                RunicRefinedClassicUi.fill(class_3322, n7 - 1, n6 - 1, 18, 18, -12498862);
-                RunicRefinedClassicUi.fill(class_3322, n7, n6, 16, 16, -14341068);
-                if (object3 instanceof class_1792) {
-                    object2 = (class_1792)object3;
-                    try {
-                        class_3322.method_51427(new class_1799((class_1935)object2), n7, n6);
-                    }
-                    catch (Throwable throwable) {
-                        if (!RunicRefinedClassicUi.st((Object)object).failedSections.add("material-icon")) break block12;
-                        System.err.println("[Runic Classic Refined] Could not render a material item icon: " + String.valueOf(throwable));
-                        throwable.printStackTrace();
-                    }
-                }
-            }
-            object2 = "\u00d7" + RunicRefinedClassicUi.num(RunicRefinedClassicUi.invokeMember(obj, "count"));
-            RunicRefinedClassicUi.text(class_3322, class_3272, RunicRefinedClassicUi.fitPixels(class_3272, (String)object2, 22), n7 + 17, n6 + 4, -2565411);
-        }
-        if (list.size() > n3) {
-            RunicRefinedClassicUi.scroll(class_3322, n + 153, n2 + 1, 3, 49, n5, n4);
-        }
-    }
-
-    private static Object invokeMember(Object object, String string) {
-        try {
-            return object.getClass().getMethod(string, new Class[0]).invoke(object, new Object[0]);
-        }
-        catch (Exception exception) {
-            return null;
-        }
-    }
-
-    private static String roman(int n) {
-        if (n <= 0) {
-            return "\u2014";
-        }
-        if (n > 10) {
-            return String.valueOf(n);
-        }
-        return (new String[]{"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"})[n];
-    }
-
-    private static void scroll(class_332 class_3322, int n, int n2, int n3, int n4, int n5, int n6) {
-        RunicRefinedClassicUi.fill(class_3322, n, n2, n3, n4, -15525858);
-        RunicRefinedClassicUi.fill(class_3322, n + 1, n2 + 1, n3 - 2, n4 - 2, -13354171);
-        int n7 = n6 == 0 ? n4 - 2 : Math.max(14, n4 / (n6 + 1));
-        int n8 = n6 == 0 ? 0 : (n4 - n7 - 2) * n5 / n6;
-        RunicRefinedClassicUi.fill(class_3322, n + 1, n2 + 1 + n8, n3 - 2, n7, n6 == 0 ? -10656658 : -6059838);
-    }
-
-    private static void emitRing(class_332 class_3322, int n, int n2, float f, int n3, int n4) {
-        if (f < 0.0f || f >= 1.0f) {
-            return;
-        }
-        double d = 14.0f + 44.0f * f;
-        for (int i = 0; i < 20; ++i) {
-            double d2 = (double)i * 0.31415926535 + (double)f * 5.7 * (double)n3;
-            int n5 = n + (int)Math.round(Math.cos(d2) * (d + (double)(i % 4)));
-            int n6 = n2 + (int)Math.round(Math.sin(d2) * (d + (double)(i % 4)));
-            RunicRefinedClassicUi.fill(class_3322, n5, n6, 2, 2, i % 5 == 0 ? -992853 : n4);
-        }
-    }
-
-    private static void drawFX(Object object, class_332 class_3322, int n, int n2) {
-        Object t = RunicRefinedClassicUi.call("state", object);
-        State state = RunicRefinedClassicUi.st(object);
-        long l = RunicRefinedClassicUi.lng(RunicRefinedClassicUi.get(t, "pulseStart"));
-        long l2 = System.nanoTime();
-        if (l > 0L && l != state.lastPulseStart) {
-            state.lastPulseStart = l;
-            state.pulses.addLast(new Pulse(l, String.valueOf(RunicRefinedClassicUi.get(t, "pulseKind"))));
-            while (state.pulses.size() > 32) {
-                state.pulses.removeFirst();
-            }
-        }
-        while (!state.pulses.isEmpty() && l2 - state.pulses.peekFirst().start > 1350000000L) {
-            state.pulses.removeFirst();
-        }
-        for (Pulse pulse : state.pulses) {
-            if (pulse.start > l2) continue;
-            float f = Math.max(0.0f, Math.min(1.0f, (float)(l2 - pulse.start) / 1.35E9f));
-            String string = pulse.kind.toLowerCase(Locale.ROOT);
-            int n3 = string.contains("unravel") ? -2244987 : -4813598;
-            int n4 = n + 124;
-            int n5 = n + 547;
-            int n6 = n2 + 153;
-            if (string.contains("trans")) {
-                RunicRefinedClassicUi.emitRing(class_3322, n4, n6, f / 0.33f, 1, n3);
-                float f2 = (f - 0.18f) / 0.58f;
-                if (f2 >= 0.0f && f2 <= 1.14f) {
-                    for (int i = 0; i < 20; ++i) {
-                        float f3 = f2 - (float)i * 0.017f;
-                        if (f3 < 0.0f || f3 > 1.0f) continue;
-                        int n7 = n4 + (int)(423.0f * f3);
-                        int n8 = (int)(7.0 * Math.sin((double)f3 * 11.5 + (double)i * 0.48));
-                        RunicRefinedClassicUi.fill(class_3322, n7, n6 + n8, 2, 2, i % 4 == 0 ? -665692 : n3);
-                    }
-                }
-                RunicRefinedClassicUi.emitRing(class_3322, n5, n6, (f - 0.64f) / 0.36f, -1, -2049808);
-                continue;
-            }
-            RunicRefinedClassicUi.emitRing(class_3322, n4, n6, f, string.contains("unravel") ? -1 : 1, n3);
-        }
-    }
-
-    private static void drawInfoPopup(Object object, class_332 class_3322, class_327 class_3272, int n, int n2) {
-        Object t = RunicRefinedClassicUi.call("state", object);
-        String string = String.valueOf(RunicRefinedClassicUi.get(t, "infoEnchant"));
-        if (string == null || string.equals("null") || string.isEmpty()) {
-            return;
-        }
-        String string2 = String.valueOf(RunicRefinedClassicUi.get(t, "infoTitle"));
-        String string3 = String.valueOf(RunicRefinedClassicUi.get(t, "infoDescription"));
-        if (string3.equals("null") || string3.isBlank()) {
-            string3 = "No description is available for this enchantment.";
-        }
-        int n3 = n + 243;
-        int n4 = n2 + 98;
-        int n5 = 394;
-        int n6 = 167;
-        RunicRefinedClassicUi.fill(class_3322, n3 + 3, n4 + 3, n5, n6, -1157627904);
-        RunicRefinedClassicUi.fill(class_3322, n3, n4, n5, n6, -15525600);
-        RunicRefinedClassicUi.border(class_3322, n3, n4, n5, n6, -6519718);
-        RunicRefinedClassicUi.fill(class_3322, n3 + 4, n4 + 4, n5 - 8, 23, -14341581);
-        RunicRefinedClassicUi.border(class_3322, n3 + 4, n4 + 4, n5 - 8, 23, -9937811);
-        RunicRefinedClassicUi.text(class_3322, class_3272, RunicRefinedClassicUi.fitPixels(class_3272, string2, n5 - 58), n3 + 13, n4 + 12, -3563153);
-        RunicRefinedClassicUi.button(class_3322, class_3272, "X", n3 + n5 - 26, n4 + 8, 18, 15, true, RunicRefinedClassicUi.hover(object, 243 + n5 - 26, 106, 18, 15), -5664921);
-        int n7 = n4 + 41;
-        int n8 = 0;
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String string4 : string3.replace('\n', ' ').split(" +")) {
-            String string5;
-            if (string4.isBlank()) continue;
-            String string6 = string5 = stringBuilder.length() == 0 ? string4 : String.valueOf(stringBuilder) + " " + string4;
-            if (RunicRefinedClassicUi.width(class_3272, string5) > n5 - 30 && stringBuilder.length() > 0) {
-                RunicRefinedClassicUi.text(class_3322, class_3272, stringBuilder.toString(), n3 + 14, n7, -2565411);
-                n7 += 15;
-                ++n8;
-                stringBuilder.setLength(0);
-            }
-            if (RunicRefinedClassicUi.width(class_3272, string4) > n5 - 30) {
-                string4 = RunicRefinedClassicUi.fitPixels(class_3272, string4, n5 - 30);
-            }
-            if (stringBuilder.length() > 0) {
-                stringBuilder.append(' ');
-            }
-            stringBuilder.append(string4);
-            if (n8 >= 7) break;
-        }
-        if (n8 < 8 && stringBuilder.length() > 0) {
-            RunicRefinedClassicUi.text(class_3322, class_3272, stringBuilder.toString(), n3 + 14, n7, -2565411);
-        }
-    }
-
-    private static int oldClick(Object object, double d, double d2, int n) {
-        return (Integer)RunicRefinedClassicUi.call("classicLegacyClick", object, (double)RunicRefinedClassicUi.x(object) + d, (double)RunicRefinedClassicUi.y(object) + d2, n);
-    }
-
-    public static int click(Object object, double d, double d2, int n) {
-        int n2;
-        double d3;
-        if (!RunicGrimoireUi.active(object)) {
-            return -1000;
-        }
-        int n3 = RunicRefinedClassicUi.ax(object);
-        double d4 = d - (double)n3;
-        if (!RunicRefinedClassicUi.inside(d4, d3 = d2 - (double)(n2 = RunicRefinedClassicUi.ay(object)), 0, 0, 672, 390)) {
-            return -1000;
-        }
-        Object t = RunicRefinedClassicUi.call("state", object);
-        Object object2 = RunicRefinedClassicUi.get(t, "infoEnchant");
-        if (object2 != null && !String.valueOf(object2).isEmpty()) {
-            RunicRefinedClassicUi.set(t, "infoEnchant", "");
+         if (var5 != 0) {
             return -20;
-        }
-        if (RunicRefinedClassicUi.inside(d4, d3, 254, 269, 164, 86)) {
-            return -10;
-        }
-        if (RunicRefinedClassicUi.inside(d4, d3, 115, 144, 18, 18) || RunicRefinedClassicUi.trans(object) && RunicRefinedClassicUi.inside(d4, d3, 538, 144, 18, 18)) {
-            return -10;
-        }
-        if (!RunicRefinedClassicUi.trans(object) && RunicRefinedClassicUi.inside(d4, d3, 457, 99, 179, 22)) {
-            return -10;
-        }
-        if (n != 0) {
-            return -20;
-        }
-        try {
-            if (RunicRefinedClassicUi.inside(d4, d3, 378, 25, 129, 28)) {
-                if (!RunicRefinedClassicUi.trans(object)) {
-                    return -20;
-                }
-                int n4 = RunicRefinedClassicUi.oldClick(object, 360.0, 15.0, n);
-                RunicRefinedClassicUi.switchFx(object);
-                return n4;
-            }
-            if (RunicRefinedClassicUi.inside(d4, d3, 515, 25, 130, 28)) {
-                if (RunicRefinedClassicUi.trans(object)) {
-                    return -20;
-                }
-                int n5 = RunicRefinedClassicUi.oldClick(object, 500.0, 15.0, n);
-                RunicRefinedClassicUi.switchFx(object);
-                return n5;
-            }
-            if (RunicRefinedClassicUi.trans(object)) {
-                int n6;
-                int n7;
-                List<?> list = RunicRefinedClassicUi.transferIds(object);
-                Object t2 = RunicRefinedClassicUi.call("state", object);
-                if (RunicRefinedClassicUi.inside(d4, d3, 248, 216, 83, 15)) {
-                    return RunicRefinedClassicUi.oldClick(object, 260.0, 80.0, n);
-                }
-                if (RunicRefinedClassicUi.inside(d4, d3, 336, 216, 83, 15)) {
-                    return RunicRefinedClassicUi.oldClick(object, 340.0, 80.0, n);
-                }
-                if (RunicRefinedClassicUi.inside(d4, d3, 248, 234, 171, 15)) {
-                    return RunicRefinedClassicUi.oldClick(object, 280.0, 225.0, n);
-                }
-                if (RunicRefinedClassicUi.inside(d4, d3, 40, 243, 160, 104)) {
-                    n7 = (int)((d3 - 244.0) / 17.0);
-                    n6 = RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(t2, "sourceScroll"));
-                    int n8 = n6 + n7;
-                    if (n7 >= 0 && n8 < list.size()) {
-                        Object obj = list.get(n8);
-                        if (d4 >= 166.0 && d4 < 182.0) {
-                            RunicRefinedClassicUi.call("openInfo", object, obj);
-                            return -20;
-                        }
-                        Set<?> set = RunicRefinedClassicUi.selectedTransfer(object);
-                        Set<?> set2 = RunicRefinedClassicUi.selectedCurses(object);
-                        return RunicRefinedClassicUi.oldClick(object, 25.0, 244 + n7 * 15 + 3, n);
-                    }
-                }
-                if (RunicRefinedClassicUi.inside(d4, d3, 204, 244, 6, 100)) {
-                    n7 = Math.max(0, list.size() - 6);
-                    n6 = Math.min(n7, Math.max(0, (int)((d3 - 244.0) * (double)n7 / 100.0)));
-                    RunicRefinedClassicUi.set(t2, "sourceScroll", n6);
-                    return -20;
-                }
-                return -20;
-            }
-            if (RunicRefinedClassicUi.inside(d4, d3, 248, 221, 83, 20)) {
-                return RunicRefinedClassicUi.oldClick(object, 60.0, 329.0, n);
-            }
-            if (RunicRefinedClassicUi.inside(d4, d3, 336, 221, 83, 20)) {
-                return RunicRefinedClassicUi.oldClick(object, 152.0, 329.0, n);
-            }
-            if (RunicRefinedClassicUi.inside(d4, d3, 453, 125, 187, 16)) {
-                int n9 = Math.min(3, (int)((d4 - 453.0) / 47.0));
-                RunicRefinedClassicUi.set(object, "tierFilter", n9);
-                RunicRefinedClassicUi.set(object, "scrollOffset", 0);
-                RunicRefinedClassicUi.call("call", object, "keepSelectionValid", new Object[0]);
-                return -20;
-            }
-            List<?> list = RunicRefinedClassicUi.all(object);
-            int n10 = Math.max(0, list.size() - 11);
-            int n11 = Math.max(0, Math.min(n10, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(object, "scrollOffset"))));
-            if (RunicRefinedClassicUi.inside(d4, d3, 636, 150, 6, 185)) {
-                int n12 = n10 == 0 ? 0 : Math.min(n10, Math.max(0, (int)((d3 - 150.0) * (double)n10 / 185.0)));
-                RunicRefinedClassicUi.set(object, "scrollOffset", n12);
-                return -20;
-            }
-            if (RunicRefinedClassicUi.inside(d4, d3, 454, 148, 182, 187)) {
-                int n13 = (int)((d3 - 149.0) / 17.0);
-                int n14 = n11 + n13;
-                if (n14 >= 0 && n14 < list.size()) {
-                    Object obj = list.get(n14);
-                    if (d4 >= 594.0 && d4 < 611.0) {
-                        RunicRefinedClassicUi.call("openInfo", object, obj);
+         }
+
+         try {
+            if (inside(var8, var10, 378, 25, 129, 28)) {
+               if (!trans(var0)) {
+                  return -20;
+               }
+
+               int var27 = oldClick(var0, 360.0, 15.0, var5);
+               switchFx(var0);
+               return var27;
+            } else if (inside(var8, var10, 515, 25, 130, 28)) {
+               if (trans(var0)) {
+                  return -20;
+               }
+
+               int var26 = oldClick(var0, 500.0, 15.0, var5);
+               switchFx(var0);
+               return var26;
+            } else if (trans(var0)) {
+               List var25 = transferIds(var0);
+               Object var28 = call("state", var0);
+               if (inside(var8, var10, 248, 216, 83, 15)) {
+                  return oldClick(var0, 260.0, 80.0, var5);
+               }
+
+               if (inside(var8, var10, 336, 216, 83, 15)) {
+                  return oldClick(var0, 340.0, 80.0, var5);
+               }
+
+               if (inside(var8, var10, 248, 234, 171, 15)) {
+                  return oldClick(var0, 280.0, 225.0, var5);
+               }
+
+               if (inside(var8, var10, 40, 243, 160, 104)) {
+                  int var29 = (int)((var10 - 244.0) / 17.0);
+                  int var33 = num(get(var28, "sourceScroll"));
+                  int var36 = var33 + var29;
+                  if (var29 >= 0 && var36 < var25.size()) {
+                     Object var38 = var25.get(var36);
+                     if (var8 >= 166.0 && var8 < 182.0) {
+                        call("openInfo", var0, var38);
                         return -20;
-                    }
-                    RunicRefinedClassicUi.set(object, "selectedEnchantment", obj);
-                    RunicRefinedClassicUi.set(RunicRefinedClassicUi.call("state", object), "costScroll", 0);
-                }
-                return -20;
+                     }
+
+                     Set var39 = selectedTransfer(var0);
+                     Set var40 = selectedCurses(var0);
+                     return oldClick(var0, 25.0, 244 + var29 * 15 + 3, var5);
+                  }
+               }
+
+               if (inside(var8, var10, 204, 244, 6, 100)) {
+                  int var30 = Math.max(0, var25.size() - 6);
+                  int var34 = Math.min(var30, Math.max(0, (int)((var10 - 244.0) * var30 / 100.0)));
+                  set(var28, "sourceScroll", var34);
+                  return -20;
+               } else {
+                  return -20;
+               }
+            } else {
+               if (inside(var8, var10, 248, 221, 83, 20)) {
+                  return oldClick(var0, 60.0, 329.0, var5);
+               }
+
+               if (inside(var8, var10, 336, 221, 83, 20)) {
+                  return oldClick(var0, 152.0, 329.0, var5);
+               }
+
+               if (inside(var8, var10, 453, 125, 187, 16)) {
+                  int var24 = Math.min(3, (int)((var8 - 453.0) / 47.0));
+                  set(var0, "tierFilter", var24);
+                  set(var0, "scrollOffset", 0);
+                  call("call", var0, "keepSelectionValid", new Object[0]);
+                  return -20;
+               }
+
+               List var14 = all(var0);
+               int var15 = Math.max(0, var14.size() - 11);
+               int var16 = Math.max(0, Math.min(var15, num(get(var0, "scrollOffset"))));
+               if (inside(var8, var10, 636, 150, 6, 185)) {
+                  int var32 = var15 == 0 ? 0 : Math.min(var15, Math.max(0, (int)((var10 - 150.0) * var15 / 185.0)));
+                  set(var0, "scrollOffset", var32);
+                  return -20;
+               }
+
+               if (inside(var8, var10, 454, 148, 182, 187)) {
+                  int var31 = (int)((var10 - 149.0) / 17.0);
+                  int var35 = var16 + var31;
+                  if (var35 >= 0 && var35 < var14.size()) {
+                     Object var37 = var14.get(var35);
+                     if (var8 >= 594.0 && var8 < 611.0) {
+                        call("openInfo", var0, var37);
+                        return -20;
+                     }
+
+                     set(var0, "selectedEnchantment", var37);
+                     set(call("state", var0), "costScroll", 0);
+                  }
+
+                  return -20;
+               } else {
+                  if (inside(var8, var10, 40, 244, 166, 103)) {
+                     Map var17 = enchants(equipment(var0));
+                     int var18 = num(get(call("state", var0), "installedScroll"));
+                     int var19 = (int)((var10 - 244.0) / 17.0) + var18;
+                     int var20 = 0;
+
+                     for (Object var22 : var17.keySet()) {
+                        if (var20++ == var19) {
+                           set(var0, "selectedEnchantment", var22);
+                           return -20;
+                        }
+                     }
+                  }
+
+                  return -20;
+               }
             }
-            if (RunicRefinedClassicUi.inside(d4, d3, 40, 244, 166, 103)) {
-                Map<?, Integer> map = RunicRefinedClassicUi.enchants(RunicRefinedClassicUi.equipment(object));
-                int n15 = RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(RunicRefinedClassicUi.call("state", object), "installedScroll"));
-                int n16 = (int)((d3 - 244.0) / 17.0) + n15;
-                int n17 = 0;
-                for (Object obj : map.keySet()) {
-                    if (n17++ != n16) continue;
-                    RunicRefinedClassicUi.set(object, "selectedEnchantment", obj);
-                    return -20;
-                }
+         } catch (Throwable var23) {
+            error(var0, "click", var23);
+            return -20;
+         }
+      } else {
+         return -10;
+      }
+   }
+
+   public static boolean mouseScroll(Object var0, double var1, double var3, double var5) {
+      if (!RunicGrimoireUi.active(var0)) {
+         return false;
+      } else {
+         int var7 = ax(var0);
+         int var8 = ay(var0);
+         double var9 = var1 - var7;
+         double var11 = var3 - var8;
+         if (var5 == 0.0) {
+            return inside(var9, var11, 0, 0, 672, 390);
+         } else {
+            int var13 = var5 < 0.0 ? 1 : -1;
+            if (trans(var0) && inside(var9, var11, 35, 230, 188, 128)) {
+               Object var19 = call("state", var0);
+               int var21 = Math.max(0, transferIds(var0).size() - 6);
+               set(var19, "sourceScroll", Math.min(var21, Math.max(0, num(get(var19, "sourceScroll")) + var13)));
+               return true;
+            } else if (!trans(var0) && inside(var9, var11, 35, 230, 188, 128)) {
+               Object var18 = call("state", var0);
+               int var20 = Math.max(0, enchants(equipment(var0)).size() - 6);
+               set(var18, "installedScroll", Math.min(var20, Math.max(0, num(get(var18, "installedScroll")) + var13)));
+               return true;
+            } else if (inside(var9, var11, 249, 135, 178, 62)) {
+               Object var17 = call("state", var0);
+               int var15 = costs(var0, trans(var0)).size();
+               int var16 = Math.max(0, var15 - 8);
+               set(var17, "costScroll", Math.min(var16, Math.max(0, num(get(var17, "costScroll")) + var13)));
+               return true;
+            } else if (!trans(var0) && inside(var9, var11, 450, 142, 198, 210)) {
+               int var14 = Math.max(0, all(var0).size() - 11);
+               set(var0, "scrollOffset", Math.min(var14, Math.max(0, num(get(var0, "scrollOffset")) + var13 * 2)));
+               return true;
+            } else {
+               return inside(var9, var11, 0, 0, 672, 390);
             }
-            return -20;
-        }
-        catch (Throwable throwable) {
-            RunicRefinedClassicUi.error(object, "click", throwable);
-            return -20;
-        }
-    }
+         }
+      }
+   }
 
-    public static boolean mouseScroll(Object object, double d, double d2, double d3) {
-        int n;
-        if (!RunicGrimoireUi.active(object)) {
-            return false;
-        }
-        int n2 = RunicRefinedClassicUi.ax(object);
-        int n3 = RunicRefinedClassicUi.ay(object);
-        double d4 = d - (double)n2;
-        double d5 = d2 - (double)n3;
-        if (d3 == 0.0) {
-            return RunicRefinedClassicUi.inside(d4, d5, 0, 0, 672, 390);
-        }
-        int n4 = n = d3 < 0.0 ? 1 : -1;
-        if (RunicRefinedClassicUi.trans(object) && RunicRefinedClassicUi.inside(d4, d5, 35, 230, 188, 128)) {
-            Object t = RunicRefinedClassicUi.call("state", object);
-            int n5 = Math.max(0, RunicRefinedClassicUi.transferIds(object).size() - 6);
-            RunicRefinedClassicUi.set(t, "sourceScroll", Math.min(n5, Math.max(0, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(t, "sourceScroll")) + n)));
-            return true;
-        }
-        if (!RunicRefinedClassicUi.trans(object) && RunicRefinedClassicUi.inside(d4, d5, 35, 230, 188, 128)) {
-            Object t = RunicRefinedClassicUi.call("state", object);
-            int n6 = Math.max(0, RunicRefinedClassicUi.enchants(RunicRefinedClassicUi.equipment(object)).size() - 6);
-            RunicRefinedClassicUi.set(t, "installedScroll", Math.min(n6, Math.max(0, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(t, "installedScroll")) + n)));
-            return true;
-        }
-        if (RunicRefinedClassicUi.inside(d4, d5, 249, 135, 178, 62)) {
-            Object t = RunicRefinedClassicUi.call("state", object);
-            int n7 = RunicRefinedClassicUi.costs(object, RunicRefinedClassicUi.trans(object)).size();
-            int n8 = Math.max(0, n7 - 8);
-            RunicRefinedClassicUi.set(t, "costScroll", Math.min(n8, Math.max(0, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(t, "costScroll")) + n)));
-            return true;
-        }
-        if (!RunicRefinedClassicUi.trans(object) && RunicRefinedClassicUi.inside(d4, d5, 450, 142, 198, 210)) {
-            int n9 = Math.max(0, RunicRefinedClassicUi.all(object).size() - 11);
-            RunicRefinedClassicUi.set(object, "scrollOffset", Math.min(n9, Math.max(0, RunicRefinedClassicUi.num(RunicRefinedClassicUi.get(object, "scrollOffset")) + n * 2)));
-            return true;
-        }
-        return RunicRefinedClassicUi.inside(d4, d5, 0, 0, 672, 390);
-    }
+   public static boolean insideScreen(Object var0, double var1, double var3) {
+      return RunicGrimoireUi.active(var0) && inside(var1, var3, ax(var0), ay(var0), 672, 390);
+   }
 
-    public static boolean insideScreen(Object object, double d, double d2) {
-        return RunicGrimoireUi.active(object) && RunicRefinedClassicUi.inside(d, d2, RunicRefinedClassicUi.ax(object), RunicRefinedClassicUi.ay(object), 672, 390);
-    }
+   private static int costRowInset(List var0, int var1, int var2) {
+      return (4 - Math.min(4, Math.max(0, var0.size() - var1 - var2 / 4 * 4))) * 37 / 2;
+   }
 
-    static {
-        RUNE_OFF = new class_2960("runic_attunement", "textures/gui/classic_rune_dormant.png");
-        RUNE_ON = new class_2960("runic_attunement", "textures/gui/classic_rune_active.png");
-    }
+   private static final class Pulse {
+      final long start;
+      final String kind;
 
-    private static int costRowInset(List list, int n, int n2) {
-        return (4 - Math.min(4, Math.max(0, list.size() - n - n2 / 4 * 4))) * 37 / 2;
-    }
+      Pulse(long var1, String var3) {
+         this.start = var1;
+         this.kind = var3;
+      }
+   }
 
-    private static final class State {
-        int mouseX;
-        int mouseY;
-        int prevX = -9999;
-        int prevY = -9999;
-        long opened;
-        long lastPulseStart;
-        long tabFxStart;
-        boolean warned;
-        final ArrayDeque<Pulse> pulses = new ArrayDeque();
-        final Set<String> failedSections = new HashSet<String>();
-
-        private State() {
-        }
-    }
-
-    private static final class Pulse {
-        final long start;
-        final String kind;
-
-        Pulse(long l, String string) {
-            this.start = l;
-            this.kind = string;
-        }
-    }
+   private static final class State {
+      int mouseX;
+      int mouseY;
+      int prevX = -9999;
+      int prevY = -9999;
+      long opened;
+      long lastPulseStart;
+      long tabFxStart;
+      boolean warned;
+      final ArrayDeque<RunicRefinedClassicUi.Pulse> pulses = new ArrayDeque<>();
+      final Set<String> failedSections = new HashSet<>();
+   }
 }
-

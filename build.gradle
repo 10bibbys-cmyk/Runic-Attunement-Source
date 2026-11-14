@@ -69,3 +69,20 @@ tasks.withType(AbstractArchiveTask).configureEach {
     preserveFileTimestamps = false
     reproducibleFileOrder = true
 }
+
+tasks.named('jar') {
+    // The original production refmap is bundled in resources. Annotation processing
+    // also generates a refmap with this name; retain the verified original mapping.
+    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.EXCLUDE
+    eachFile { entry ->
+        if (entry.path == 'runic-attunement-refmap.json'
+                && entry.file.absolutePath.replace('\\', '/').contains('/classes/')) {
+            entry.exclude()
+        }
+    }
+}
+
+tasks.named('sourcesJar') {
+    // Recovery resource copying can duplicate fabric.mod.json; retain one copy.
+    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.EXCLUDE
+}
