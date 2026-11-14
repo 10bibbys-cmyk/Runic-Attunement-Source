@@ -7,6 +7,6 @@
 - Added a reproducible Java 17 / Fabric Loom 1.7.4 build that passes Gradle compilation and packaging.
 - Preserved all original compiled class paths, assets, datapack content, and the Runic Mixin reference map.
 - **This is source and build maintenance, not a new gameplay release.** The existing 1.3.8 CurseForge JAR has not been changed.
-- The rebuilt experimental JAR requires in-game regression testing before it can replace the official release.
+- On 14 November 2026, the project maintainer confirmed the rebuilt 1.3.8 JAR worked in-game in the PotA test instance. Clean builds and a dedicated-server smoke test also passed. The CurseForge binary was not replaced.
 
 Runic Attunement 1.3.8 includes Tablet-based Attunement, Reforging, Transmutation, Unravel refunds, datapack-driven equipment compatibility, optional Jade and Enchanted ToolTips support, and a refined Runic Table interface.
