@@ -1,0 +1,71 @@
+plugins {
+    id 'fabric-loom' version '1.7.4'
+    id 'maven-publish'
+}
+version = '1.3.8'
+group = 'dev.runicattunement'
+base { archivesName = 'runic-attunement' }
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.fabricmc.net/' }
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+
+import java.util.zip.ZipFile
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
+// The published 1.3.8 binary is already in intermediary names.
+// This recovery-only build mirrors intermediary as 'named' using public Yarn
+// mappings. It does not rewrite the original production Java logic.
+configurations {
+    recoveryYarnMappings
+}
+
+dependencies {
+    recoveryYarnMappings 'net.fabricmc:yarn:1.20.1+build.10:v2'
+}
+
+def recoveryMappingJar = file("$buildDir/recovery-mappings/intermediary-named.jar")
+recoveryMappingJar.parentFile.mkdirs()
+
+def yarnMappingJar = configurations.recoveryYarnMappings.singleFile
+new ZipFile(yarnMappingJar).withCloseable { sourceZip ->
+    def tinyEntry = sourceZip.getEntry('mappings/mappings.tiny')
+    if (tinyEntry == null) {
+        throw new GradleException('Yarn mapping archive is missing mappings/mappings.tiny')
+    }
+    def mappingText = sourceZip.getInputStream(tinyEntry).getText('UTF-8')
+    def lines = mappingText.split('\n', -1).collect { line ->
+        def parts = line.split('\t', -1)
+        if (line.startsWith('c\t') || line.startsWith('\tf\t') || line.startsWith('\tm\t')) {
+            parts[parts.length - 1] = parts[parts.length - 2]
+        }
+        return parts.join('\t')
+    }
+    new ZipOutputStream(new FileOutputStream(recoveryMappingJar)).withCloseable { dest ->
+        dest.putNextEntry(new ZipEntry('mappings/mappings.tiny'))
+        dest.write(lines.join('\n').getBytes('UTF-8'))
+        dest.closeEntry()
+    }
+}
+
+dependencies {
+    minecraft 'com.mojang:minecraft:1.20.1'
+    mappings files(recoveryMappingJar)
+    modImplementation 'net.fabricmc:fabric-loader:0.16.14'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.92.2+1.20.1'
+    modCompileOnly 'maven.modrinth:jade:11.13.3+fabric'
+}
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    withSourcesJar()
+}
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
