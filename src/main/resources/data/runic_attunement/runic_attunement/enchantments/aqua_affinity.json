@@ -1,0 +1,32 @@
+{
+  "enchantment": "minecraft:aqua_affinity",
+  "tablet_tier": 2,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:prismarine_crystals",
+          "count": 6,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:nautilus_shell",
+          "count": 1,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 6,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:glowstone_dust",
+          "count": 4,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 90
+    }
+  ]
+}

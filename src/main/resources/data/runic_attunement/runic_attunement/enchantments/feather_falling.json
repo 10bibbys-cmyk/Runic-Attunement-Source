@@ -1,0 +1,90 @@
+{
+  "enchantment": "minecraft:feather_falling",
+  "tablet_tier": 1,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:feather",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:phantom_membrane",
+          "count": 1,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 50
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:feather",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:phantom_membrane",
+          "count": 1,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 75
+    },
+    {
+      "level": 3,
+      "ingredients": [
+        {
+          "item": "minecraft:feather",
+          "count": 5,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:phantom_membrane",
+          "count": 1,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:soul_sand",
+          "count": 4,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 3,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 105
+    },
+    {
+      "level": 4,
+      "ingredients": [
+        {
+          "item": "minecraft:feather",
+          "count": 6,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:phantom_membrane",
+          "count": 2,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:soul_sand",
+          "count": 5,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 3,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 140
+    }
+  ]
+}

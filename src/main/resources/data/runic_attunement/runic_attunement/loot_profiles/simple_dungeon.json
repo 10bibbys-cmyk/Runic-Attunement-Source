@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/simple_dungeon",
+  "tablet_chance": 0.25
+}

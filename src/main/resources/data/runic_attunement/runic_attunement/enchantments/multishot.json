@@ -1,0 +1,32 @@
+{
+  "enchantment": "minecraft:multishot",
+  "tablet_tier": 2,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:arrow",
+          "count": 16,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:string",
+          "count": 8,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 8,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:blaze_powder",
+          "count": 4,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 90
+    }
+  ]
+}

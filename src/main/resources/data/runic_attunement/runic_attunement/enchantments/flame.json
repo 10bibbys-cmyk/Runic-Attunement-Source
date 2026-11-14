@@ -1,0 +1,32 @@
+{
+  "enchantment": "minecraft:flame",
+  "tablet_tier": 2,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:coal",
+          "count": 8,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:flint",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:blaze_powder",
+          "count": 6,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:magma_cream",
+          "count": 2,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 90
+    }
+  ]
+}

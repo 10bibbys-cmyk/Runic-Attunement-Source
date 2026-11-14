@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/pillager_outpost",
+  "tablet_chance": 0.2
+}

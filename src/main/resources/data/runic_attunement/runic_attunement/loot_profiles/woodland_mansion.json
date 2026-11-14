@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/woodland_mansion",
+  "tablet_chance": 0.35
+}

@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/jungle_temple",
+  "tablet_chance": 0.4
+}

@@ -1,0 +1,111 @@
+{
+  "enchantment": "minecraft:impaling",
+  "tablet_tier": 1,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:prismarine_shard",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:prismarine_crystals",
+          "count": 1,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 50
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:prismarine_shard",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:prismarine_crystals",
+          "count": 2,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 75
+    },
+    {
+      "level": 3,
+      "ingredients": [
+        {
+          "item": "minecraft:prismarine_shard",
+          "count": 5,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:prismarine_crystals",
+          "count": 2,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 4,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 105
+    },
+    {
+      "level": 4,
+      "ingredients": [
+        {
+          "item": "minecraft:prismarine_shard",
+          "count": 6,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:prismarine_crystals",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 5,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:glowstone_dust",
+          "count": 3,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 140
+    },
+    {
+      "level": 5,
+      "ingredients": [
+        {
+          "item": "minecraft:prismarine_shard",
+          "count": 8,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:prismarine_crystals",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 6,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:glowstone_dust",
+          "count": 4,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 180
+    }
+  ]
+}

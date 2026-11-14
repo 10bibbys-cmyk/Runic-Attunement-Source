@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/bastion_other",
+  "tablet_chance": 0.3
+}

@@ -1,0 +1,69 @@
+{
+  "enchantment": "minecraft:looting",
+  "tablet_tier": 3,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:emerald",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:gold_ingot",
+          "count": 3,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 160
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:emerald",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:gold_ingot",
+          "count": 5,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 5,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 235
+    },
+    {
+      "level": 3,
+      "ingredients": [
+        {
+          "item": "minecraft:emerald",
+          "count": 5,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:gold_ingot",
+          "count": 6,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 6,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:blaze_powder",
+          "count": 4,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 325
+    }
+  ]
+}

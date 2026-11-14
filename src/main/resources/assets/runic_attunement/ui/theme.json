@@ -1,0 +1,23 @@
+{
+  "background_texture": "runic_attunement:textures/gui/runic_inscription.png",
+  "colours": {
+    "title": "#E8D8A6",
+    "text": "#D5D8D7",
+    "muted": "#7F8587",
+    "accent": "#9B7948",
+    "accent_bright": "#D6B875",
+    "border": "#59616A",
+    "panel": "#24292F",
+    "panel_hover": "#303840",
+    "panel_selected": "#3D4650",
+    "compatible": "#74C58A",
+    "incompatible": "#D56D68",
+    "maximum": "#D8B55E",
+    "tier_1": "#73C993",
+    "tier_2": "#E18B50",
+    "tier_3": "#B989E6",
+    "button": "#4B4033",
+    "button_hover": "#6C5739",
+    "button_disabled": "#292C30"
+  }
+}

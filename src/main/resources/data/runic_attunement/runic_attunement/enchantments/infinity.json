@@ -1,0 +1,32 @@
+{
+  "enchantment": "minecraft:infinity",
+  "tablet_tier": 3,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:arrow",
+          "count": 32,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:diamond",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:blaze_powder",
+          "count": 6,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 12,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 160
+    }
+  ]
+}

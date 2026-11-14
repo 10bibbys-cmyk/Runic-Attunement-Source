@@ -1,0 +1,32 @@
+{
+  "enchantment": "minecraft:mending",
+  "tablet_tier": 3,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:diamond",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:amethyst_shard",
+          "count": 8,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:ghast_tear",
+          "count": 3,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 12,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 160
+    }
+  ]
+}

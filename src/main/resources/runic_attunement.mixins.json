@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "dev.runicattunement.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "LootTableMixin",
+    "FishingBobberEntityMixin",
+    "MerchantEntityMixin",
+    "AnvilScreenHandlerMixin",
+    "MobEntityMixin",
+    "GrindstoneInputSlotMixin",
+    "GrindstoneScreenHandlerMixin",
+    "GrindstoneOutputSlotMixin",
+    "ScreenHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "runic-attunement-refmap.json"
+}

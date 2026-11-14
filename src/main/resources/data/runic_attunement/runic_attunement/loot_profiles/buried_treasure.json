@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/buried_treasure",
+  "tablet_chance": 0.3
+}

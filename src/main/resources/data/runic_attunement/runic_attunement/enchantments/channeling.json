@@ -1,0 +1,32 @@
+{
+  "enchantment": "minecraft:channeling",
+  "tablet_tier": 2,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:copper_ingot",
+          "count": 12,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:amethyst_shard",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 8,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:glowstone_dust",
+          "count": 4,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 90
+    }
+  ]
+}

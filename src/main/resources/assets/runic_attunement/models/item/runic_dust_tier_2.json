@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "runic_attunement:item/runic_dust_tier_2"
+  }
+}

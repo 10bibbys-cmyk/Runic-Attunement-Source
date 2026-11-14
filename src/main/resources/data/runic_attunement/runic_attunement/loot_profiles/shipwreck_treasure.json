@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/shipwreck_treasure",
+  "tablet_chance": 0.25
+}

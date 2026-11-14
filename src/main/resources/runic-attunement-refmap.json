@@ -1,0 +1,72 @@
+{
+  "mappings": {
+    "dev/runicattunement/mixin/AnvilScreenHandlerMixin": {
+      "canTakeOutput": "Lnet/minecraft/class_1706;method_24927(Lnet/minecraft/class_1657;Z)Z",
+      "onTakeOutput": "Lnet/minecraft/class_1706;method_24923(Lnet/minecraft/class_1657;Lnet/minecraft/class_1799;)V",
+      "updateResult": "Lnet/minecraft/class_1706;method_24928()V"
+    },
+    "dev/runicattunement/mixin/FishingBobberEntityMixin": {
+      "use": "Lnet/minecraft/class_1536;method_6957(Lnet/minecraft/class_1799;)I"
+    },
+    "dev/runicattunement/mixin/GrindstoneInputSlotMixin": {
+      "canInsert": "method_7680(Lnet/minecraft/class_1799;)Z",
+      "net.minecraft.screen.GrindstoneScreenHandler$2": "net/minecraft/class_3803$2",
+      "net.minecraft.screen.GrindstoneScreenHandler$3": "net/minecraft/class_3803$3"
+    },
+    "dev/runicattunement/mixin/GrindstoneOutputSlotMixin": {
+      "net.minecraft.screen.GrindstoneScreenHandler$4": "net/minecraft/class_3803$4",
+      "onTakeItem": "Lnet/minecraft/class_3803$4;method_7667(Lnet/minecraft/class_1657;Lnet/minecraft/class_1799;)V"
+    },
+    "dev/runicattunement/mixin/GrindstoneScreenHandlerMixin": {
+      "updateResult": "Lnet/minecraft/class_3803;method_16695()V"
+    },
+    "dev/runicattunement/mixin/LootTableMixin": {
+      "generateLoot(Lnet/minecraft/loot/context/LootContext;Ljava/util/function/Consumer;)V": "Lnet/minecraft/class_52;method_320(Lnet/minecraft/class_47;Ljava/util/function/Consumer;)V"
+    },
+    "dev/runicattunement/mixin/MerchantEntityMixin": {
+      "getOffers": "Lnet/minecraft/class_3988;method_8264()Lnet/minecraft/class_1916;"
+    },
+    "dev/runicattunement/mixin/MobEntityMixin": {
+      "updateEnchantments": "Lnet/minecraft/class_1308;method_5984(Lnet/minecraft/class_5819;Lnet/minecraft/class_1266;)V"
+    },
+    "dev/runicattunement/mixin/ScreenHandlerMixin": {
+      "onSlotClick": "Lnet/minecraft/class_1703;method_7593(IILnet/minecraft/class_1713;Lnet/minecraft/class_1657;)V"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "dev/runicattunement/mixin/AnvilScreenHandlerMixin": {
+        "canTakeOutput": "Lnet/minecraft/class_1706;method_24927(Lnet/minecraft/class_1657;Z)Z",
+        "onTakeOutput": "Lnet/minecraft/class_1706;method_24923(Lnet/minecraft/class_1657;Lnet/minecraft/class_1799;)V",
+        "updateResult": "Lnet/minecraft/class_1706;method_24928()V"
+      },
+      "dev/runicattunement/mixin/FishingBobberEntityMixin": {
+        "use": "Lnet/minecraft/class_1536;method_6957(Lnet/minecraft/class_1799;)I"
+      },
+      "dev/runicattunement/mixin/GrindstoneInputSlotMixin": {
+        "canInsert": "method_7680(Lnet/minecraft/class_1799;)Z",
+        "net.minecraft.screen.GrindstoneScreenHandler$2": "net/minecraft/class_3803$2",
+        "net.minecraft.screen.GrindstoneScreenHandler$3": "net/minecraft/class_3803$3"
+      },
+      "dev/runicattunement/mixin/GrindstoneOutputSlotMixin": {
+        "net.minecraft.screen.GrindstoneScreenHandler$4": "net/minecraft/class_3803$4",
+        "onTakeItem": "Lnet/minecraft/class_3803$4;method_7667(Lnet/minecraft/class_1657;Lnet/minecraft/class_1799;)V"
+      },
+      "dev/runicattunement/mixin/GrindstoneScreenHandlerMixin": {
+        "updateResult": "Lnet/minecraft/class_3803;method_16695()V"
+      },
+      "dev/runicattunement/mixin/LootTableMixin": {
+        "generateLoot(Lnet/minecraft/loot/context/LootContext;Ljava/util/function/Consumer;)V": "Lnet/minecraft/class_52;method_320(Lnet/minecraft/class_47;Ljava/util/function/Consumer;)V"
+      },
+      "dev/runicattunement/mixin/MerchantEntityMixin": {
+        "getOffers": "Lnet/minecraft/class_3988;method_8264()Lnet/minecraft/class_1916;"
+      },
+      "dev/runicattunement/mixin/MobEntityMixin": {
+        "updateEnchantments": "Lnet/minecraft/class_1308;method_5984(Lnet/minecraft/class_5819;Lnet/minecraft/class_1266;)V"
+      },
+      "dev/runicattunement/mixin/ScreenHandlerMixin": {
+        "onSlotClick": "Lnet/minecraft/class_1703;method_7593(IILnet/minecraft/class_1713;Lnet/minecraft/class_1657;)V"
+      }
+    }
+  }
+}

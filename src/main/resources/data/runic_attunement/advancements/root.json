@@ -1,0 +1,15 @@
+{
+  "display": {
+    "icon": { "item": "minecraft:enchanting_table" },
+    "title": { "translate": "advancements.runic_attunement.root.title" },
+    "description": { "translate": "advancements.runic_attunement.root.description" },
+    "background": "minecraft:textures/block/deepslate_tiles.png",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "automatic": { "trigger": "minecraft:tick" }
+  }
+}

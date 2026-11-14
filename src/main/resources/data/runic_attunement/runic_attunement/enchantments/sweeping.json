@@ -1,0 +1,69 @@
+{
+  "enchantment": "minecraft:sweeping",
+  "tablet_tier": 2,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:amethyst_shard",
+          "count": 2,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 90
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 6,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:amethyst_shard",
+          "count": 2,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 4,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 135
+    },
+    {
+      "level": 3,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 8,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:amethyst_shard",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 5,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:blaze_powder",
+          "count": 3,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 185
+    }
+  ]
+}

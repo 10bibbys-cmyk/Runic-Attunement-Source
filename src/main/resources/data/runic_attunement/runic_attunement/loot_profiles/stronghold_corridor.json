@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/stronghold_corridor",
+  "tablet_chance": 0.2
+}

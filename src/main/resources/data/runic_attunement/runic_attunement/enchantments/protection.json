@@ -1,0 +1,90 @@
+{
+  "enchantment": "minecraft:protection",
+  "tablet_tier": 1,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:leather",
+          "count": 2,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 50
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:leather",
+          "count": 2,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 75
+    },
+    {
+      "level": 3,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 5,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:leather",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 4,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:glowstone_dust",
+          "count": 3,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 105
+    },
+    {
+      "level": 4,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 6,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:leather",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 5,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:glowstone_dust",
+          "count": 3,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 140
+    }
+  ]
+}

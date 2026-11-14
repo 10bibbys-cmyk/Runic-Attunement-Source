@@ -1,0 +1,48 @@
+{
+  "enchantment": "minecraft:fire_aspect",
+  "tablet_tier": 2,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:flint",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 2,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 90
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:flint",
+          "count": 6,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:blaze_powder",
+          "count": 4,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:magma_cream",
+          "count": 1,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 135
+    }
+  ]
+}

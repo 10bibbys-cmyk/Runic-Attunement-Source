@@ -1,0 +1,69 @@
+{
+  "enchantment": "minecraft:fortune",
+  "tablet_tier": 3,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:gold_ingot",
+          "count": 5,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:amethyst_shard",
+          "count": 2,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 160
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:gold_ingot",
+          "count": 8,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:amethyst_shard",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 5,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 235
+    },
+    {
+      "level": 3,
+      "ingredients": [
+        {
+          "item": "minecraft:gold_ingot",
+          "count": 10,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:amethyst_shard",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 6,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:glowstone_dust",
+          "count": 4,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 325
+    }
+  ]
+}

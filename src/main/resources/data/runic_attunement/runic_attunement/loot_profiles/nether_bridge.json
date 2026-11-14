@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/nether_bridge",
+  "tablet_chance": 0.3
+}

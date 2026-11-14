@@ -1,0 +1,10 @@
+{
+  "parent": "runic_attunement:shelve_tablet",
+  "display": {
+    "icon": { "item": "minecraft:iron_sword" },
+    "title": { "translate": "advancements.runic_attunement.first_attunement.title" },
+    "description": { "translate": "advancements.runic_attunement.first_attunement.description" },
+    "frame": "task", "show_toast": true, "announce_to_chat": false, "hidden": false
+  },
+  "criteria": { "attuned": { "trigger": "runic_attunement:first_attunement" } }
+}

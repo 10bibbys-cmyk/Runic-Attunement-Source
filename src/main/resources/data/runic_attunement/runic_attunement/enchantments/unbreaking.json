@@ -1,0 +1,69 @@
+{
+  "enchantment": "minecraft:unbreaking",
+  "tablet_tier": 1,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:obsidian",
+          "count": 1,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 50
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:obsidian",
+          "count": 1,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 3,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 75
+    },
+    {
+      "level": 3,
+      "ingredients": [
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 5,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:obsidian",
+          "count": 2,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 4,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:ghast_tear",
+          "count": 1,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 105
+    }
+  ]
+}

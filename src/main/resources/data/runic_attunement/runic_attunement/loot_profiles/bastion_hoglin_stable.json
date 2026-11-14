@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/bastion_hoglin_stable",
+  "tablet_chance": 0.35
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "runic_attunement:use_table",
+  "display": {
+    "icon": { "item": "minecraft:chiseled_bookshelf" },
+    "title": { "translate": "advancements.runic_attunement.shelve_tablet.title" },
+    "description": { "translate": "advancements.runic_attunement.shelve_tablet.description" },
+    "frame": "task", "show_toast": true, "announce_to_chat": false, "hidden": false
+  },
+  "criteria": { "shelved": { "trigger": "runic_attunement:shelve_tablet" } }
+}

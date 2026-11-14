@@ -1,0 +1,9 @@
+{
+  "levels": [
+    { "level": 1, "ingredients": [ { "item": "minecraft:lapis_lazuli", "count": 2, "kind": "universal" } ] },
+    { "level": 2, "ingredients": [ { "item": "minecraft:lapis_lazuli", "count": 4, "kind": "universal" } ] },
+    { "level": 3, "ingredients": [ { "item": "minecraft:lapis_lazuli", "count": 6, "kind": "universal" } ] },
+    { "level": 4, "ingredients": [ { "item": "minecraft:lapis_lazuli", "count": 8, "kind": "universal" } ] },
+    { "level": 5, "ingredients": [ { "item": "minecraft:lapis_lazuli", "count": 12, "kind": "universal" } ] }
+  ]
+}

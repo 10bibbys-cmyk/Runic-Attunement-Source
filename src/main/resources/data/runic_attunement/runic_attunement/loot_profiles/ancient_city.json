@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/ancient_city",
+  "tablet_chance": 0.45
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "runic_attunement:first_tablet",
+  "display": {
+    "icon": { "item": "runic_attunement:runic_tablet_tier_1" },
+    "title": { "translate": "advancements.runic_attunement.latent_tablet.title" },
+    "description": { "translate": "advancements.runic_attunement.latent_tablet.description" },
+    "frame": "task", "show_toast": true, "announce_to_chat": false, "hidden": false
+  },
+  "criteria": { "found": { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["runic_attunement:runic_tablet_tier_1"] }] } } }
+}

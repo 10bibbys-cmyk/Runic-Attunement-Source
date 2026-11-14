@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/bastion_bridge",
+  "tablet_chance": 0.35
+}

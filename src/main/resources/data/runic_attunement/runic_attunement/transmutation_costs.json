@@ -1,0 +1,30 @@
+{
+  "materials": [
+    {
+      "item": "minecraft:emerald",
+      "count_per_unit": 2
+    },
+    {
+      "item": "minecraft:lapis_lazuli",
+      "count_per_unit": 2
+    },
+    {
+      "item": "minecraft:copper_ingot",
+      "count_per_unit": 2
+    }
+  ],
+  "curse_retention": [
+    {
+      "item": "minecraft:emerald",
+      "count": 8
+    },
+    {
+      "item": "minecraft:lapis_lazuli",
+      "count": 8
+    },
+    {
+      "item": "minecraft:copper_ingot",
+      "count": 8
+    }
+  ]
+}

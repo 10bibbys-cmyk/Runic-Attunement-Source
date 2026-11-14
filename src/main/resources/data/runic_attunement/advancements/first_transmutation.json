@@ -1,0 +1,10 @@
+{
+  "parent": "runic_attunement:first_attunement",
+  "display": {
+    "icon": { "item": "minecraft:amethyst_shard" },
+    "title": { "translate": "advancements.runic_attunement.first_transmutation.title" },
+    "description": { "translate": "advancements.runic_attunement.first_transmutation.description" },
+    "frame": "goal", "show_toast": true, "announce_to_chat": false, "hidden": false
+  },
+  "criteria": { "transmuted": { "trigger": "runic_attunement:first_transmutation" } }
+}

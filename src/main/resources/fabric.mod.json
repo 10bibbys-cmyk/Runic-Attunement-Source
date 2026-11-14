@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "runic_attunement",
+  "version": "1.3.8",
+  "name": "Runic Attunement",
+  "description": "Deterministic, exploration-driven enchanting through Runic Tablets, Chiseled Bookshelves and Runic Attunement, with optional enchantment-acquisition controls, Tablet reclamation, Runic Reforging and Runic Transmutation.",
+  "authors": [
+    "Runic Attunement Project"
+  ],
+  "contact": {},
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.runicattunement.RunicAttunement",
+      "pota.runicmpfix.RunicMpFix"
+    ],
+    "client": [
+      "dev.runicattunement.client.RunicAttunementClient"
+    ],
+    "jade": [
+      "dev.runicattunement.compat.jade.RunicJadePlugin"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  },
+  "mixins": [
+    "runic_attunement.mixins.json",
+    "pota_runic_mp_fix.mixins.json"
+  ],
+  "icon": "assets/runic_attunement/icon.png",
+  "license": "All-Rights-Reserved"
+}

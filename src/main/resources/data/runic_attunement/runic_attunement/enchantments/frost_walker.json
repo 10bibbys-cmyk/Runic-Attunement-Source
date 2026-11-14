@@ -1,0 +1,48 @@
+{
+  "enchantment": "minecraft:frost_walker",
+  "tablet_tier": 2,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:packed_ice",
+          "count": 4,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:leather",
+          "count": 2,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 90
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:packed_ice",
+          "count": 6,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:leather",
+          "count": 3,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 4,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:soul_sand",
+          "count": 3,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 135
+    }
+  ]
+}

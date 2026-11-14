@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "loot_table": "minecraft:chests/desert_pyramid",
+  "tablet_chance": 0.4
+}

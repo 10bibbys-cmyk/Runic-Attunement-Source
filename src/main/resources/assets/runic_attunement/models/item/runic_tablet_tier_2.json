@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "runic_attunement:item/runic_tablet_tier_2"
+  }
+}

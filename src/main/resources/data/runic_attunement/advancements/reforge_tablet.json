@@ -1,0 +1,10 @@
+{
+  "parent": "runic_attunement:grind_tablet",
+  "display": {
+    "icon": { "item": "minecraft:anvil" },
+    "title": { "translate": "advancements.runic_attunement.reforge_tablet.title" },
+    "description": { "translate": "advancements.runic_attunement.reforge_tablet.description" },
+    "frame": "task", "show_toast": true, "announce_to_chat": false, "hidden": false
+  },
+  "criteria": { "reforged": { "trigger": "runic_attunement:reforge_tablet" } }
+}

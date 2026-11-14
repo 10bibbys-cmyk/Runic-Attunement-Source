@@ -1,0 +1,48 @@
+{
+  "enchantment": "minecraft:knockback",
+  "tablet_tier": 1,
+  "levels": [
+    {
+      "level": 1,
+      "ingredients": [
+        {
+          "item": "minecraft:slime_ball",
+          "count": 2,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 2,
+          "kind": "thematic"
+        }
+      ],
+      "experience_points": 50
+    },
+    {
+      "level": 2,
+      "ingredients": [
+        {
+          "item": "minecraft:slime_ball",
+          "count": 2,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:iron_ingot",
+          "count": 2,
+          "kind": "thematic"
+        },
+        {
+          "item": "minecraft:quartz",
+          "count": 3,
+          "kind": "dimensional"
+        },
+        {
+          "item": "minecraft:blaze_powder",
+          "count": 2,
+          "kind": "dimensional"
+        }
+      ],
+      "experience_points": 75
+    }
+  ]
+}
