@@ -51,7 +51,13 @@ public final class RunicCompatibility {
       RunicStoppedLifecycle.register();
    }
 
-   // Called by the runtime-ABI-safe ServerStopped listener.\n   static void runicShutdownClear() {\n      serverRules = Map.of();\n      serverInitialized = false;\n   }\n\n   private static synchronized void reload(class_3300 var0) {
+   // Called by the runtime-ABI-safe ServerStopped listener.
+   static void runicShutdownClear() {
+      serverRules = Map.of();
+      serverInitialized = false;
+   }
+
+   private static synchronized void reload(class_3300 var0) {
       LinkedHashMap var1 = new LinkedHashMap();
       int var2 = 0;
 
