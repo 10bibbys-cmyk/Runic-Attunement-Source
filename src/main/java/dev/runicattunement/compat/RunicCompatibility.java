@@ -48,10 +48,13 @@ public final class RunicCompatibility {
             RunicCompatibility.reload(var1);
          }
       });
-      ServerLifecycleEvents.SERVER_STOPPED.register((ServerStopped)var0 -> {
-         serverRules = Map.of();
-         serverInitialized = false;
-      });
+      RunicStoppedLifecycle.register();
+   }
+
+   // Called by the runtime-ABI-safe ServerStopped listener.
+   static void runicShutdownClear() {
+      serverRules = Map.of();
+      serverInitialized = false;
    }
 
    private static synchronized void reload(class_3300 var0) {
