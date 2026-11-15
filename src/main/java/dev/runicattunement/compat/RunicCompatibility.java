@@ -48,10 +48,30 @@ public final class RunicCompatibility {
             RunicCompatibility.reload(var1);
          }
       });
-      ServerLifecycleEvents.SERVER_STOPPED.register((ServerStopped)var0 -> {
-         serverRules = Map.of();
-         serverInitialized = false;
-      });
+      // This 1.3.8 source-recovery build uses intermediary Minecraft names, while
+      // the packaged Fabric lifecycle API may resolve MinecraftServer by its named
+      // descriptor. A normal lambda can therefore throw AbstractMethodError when
+      // SERVER_STOPPED fires. Proxy the runtime interface to match its actual ABI.
+      ServerStopped stoppedListener = (ServerStopped) java.lang.reflect.Proxy.newProxyInstance(
+         ServerStopped.class.getClassLoader(),
+         new Class<?>[]{ServerStopped.class},
+         (proxy, method, args) -> {
+            if (method.getName().equals("onServerStopped") && method.getParameterCount() == 1) {
+               serverRules = Map.of();
+               serverInitialized = false;
+               return null;
+            }
+            if (method.getDeclaringClass() == Object.class) {
+               return switch (method.getName()) {
+                  case "equals" -> proxy == args[0];
+                  case "hashCode" -> System.identityHashCode(proxy);
+                  case "toString" -> "RunicAttunementServerStoppedListener";
+                  default -> throw new UnsupportedOperationException(method.toString());
+               };
+            }
+            throw new UnsupportedOperationException(method.toString());
+         });
+      ServerLifecycleEvents.SERVER_STOPPED.register(stoppedListener);
    }
 
    private static synchronized void reload(class_3300 var0) {
