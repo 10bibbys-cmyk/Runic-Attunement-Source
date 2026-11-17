@@ -23,6 +23,7 @@ import net.minecraft.class_2960;
 import net.minecraft.class_310;
 import net.minecraft.class_327;
 import net.minecraft.class_332;
+import net.minecraft.class_4587;
 import net.minecraft.class_3414;
 import net.minecraft.class_7923;
 
@@ -580,7 +581,16 @@ public final class RunicRefinedClassicUi {
          centerBox(var1, var2, "INVENTORY", var5 + 246, var6 + 253, 177, 15, -3563153);
          drawFX(var0, var1, var5, var6);
          drawSwitchFx(var0, var1, var5, var6);
-         drawInfoPopup(var0, var1, var2, var5, var6);
+         // Material item rendering uses a raised Z layer. Keep the [i]
+         // description in the foreground above those icon transforms.
+         class_4587 popupMatrices = var1.method_51448();
+         popupMatrices.method_22903();
+         try {
+            popupMatrices.method_22904(0.0, 0.0, 400.0);
+            drawInfoPopup(var0, var1, var2, var5, var6);
+         } finally {
+            popupMatrices.method_22909();
+         }
          return true;
       } catch (Throwable var8) {
          error(var0, "foreground", var8);
