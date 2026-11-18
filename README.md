@@ -37,7 +37,20 @@ See the supplied JSON files in `src/main/resources/data/runic_attunement/` for w
 - **Optional:** Jade, Enchanted ToolTips
 - **Multiplayer:** Install on both client and server
 
-## Hotfix 1.3.8.1
+## Current release — 1.3.8.2
+
+**Runic Attunement 1.3.8.2** fixes the Refined Classic enchantment information panel opened with `[i]`.
+
+- Material-cost icons and the search bar no longer overlap the popup.
+- The information panel renders above the GUI and is centered in the Runic Attunement interface.
+- The close button's hover area is aligned, and the hidden material icons return when the popup closes.
+- Enchanting costs, eligible items, progression, and the other Runic systems remain unchanged.
+
+The maintainer confirmed the final popup placement and readability in-game in Path of the Ascended: Next Gen. [Read the 1.3.8.2 release notes](RELEASE_NOTES_1.3.8.2.md).
+
+**Build provenance:** 1.3.8.2 is compiled from this recovered source and is not claimed to be byte-identical to the previous 1.3.8.1 minimally patched production JAR. Dedicated-server and wider multiplayer regression checks remain recommended.
+
+## Previous hotfix — 1.3.8.1
 
 **Current maintenance hotfix:** `Runic-Attunement-1.3.8.1-Fabric-1.20.1.jar` (Fabric 1.20.1). It fixes a `SERVER_STOPPED` callback descriptor mismatch that caused `AbstractMethodError` when exiting worlds. The maintainer confirmed the patch across repeated world logins and shutdowns in Path of the Ascended: Next Gen.
 
@@ -49,7 +62,7 @@ See [1.3.8.1 release notes](RELEASE_NOTES_1.3.8.1.md) and [changelog](CHANGELOG.
 
 ## Source provenance and build status
 
-This repository is the publicly viewable **1.3.8.1 maintained source-recovery snapshot**, reconstructed from the SHA-256-verified CurseForge production JAR using **Vineflower 1.12.0**. The earlier CFR reconstruction did not compile and has been replaced. The historical private GitHub repository did not contain the original 1.3.8 hand-written Java source.
+This repository is the publicly viewable **1.3.8.2 maintained source-recovery snapshot**, reconstructed from the SHA-256-verified CurseForge production JAR using **Vineflower 1.12.0**. The earlier CFR reconstruction did not compile and has been replaced. The historical private GitHub repository did not contain the original 1.3.8 hand-written Java source.
 
 **Verified production release:** `Runic-Attunement-1.3.8-Fabric-1.20.1.jar`, CurseForge project `1737183`, file `9595336`, published **13 November 2026**.
 
