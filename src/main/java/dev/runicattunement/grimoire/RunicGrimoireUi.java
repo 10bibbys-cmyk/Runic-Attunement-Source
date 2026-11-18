@@ -1138,11 +1138,19 @@ public final class RunicGrimoireUi {
    }
 
    public static void maybeRenderInfo(Object var0, Object var1, int var2, int var3) {
-      if (!active(var0)) {
-         try {
-            call(Class.forName("dev.runicattunement.compat.EnchantedTooltipsBridge"), "renderInfo", var0, var1, var2, var3);
-         } catch (Throwable var5) {
+      if (active(var0)) {
+         // The refined view has its own [i] description, drawn after the
+         // screen's widgets, inventory slots and other foreground elements.
+         // Do not use the older EnchantedTooltipsBridge popup in this mode.
+         if (var1 instanceof class_332 context) {
+            RunicRefinedClassicUi.renderLateInfo(var0, context);
          }
+         return;
+      }
+
+      try {
+         call(Class.forName("dev.runicattunement.compat.EnchantedTooltipsBridge"), "renderInfo", var0, var1, var2, var3);
+      } catch (Throwable ignored) {
       }
    }
 
