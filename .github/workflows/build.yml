@@ -1,7 +1,8 @@
-name: Build 1.3.8.1 Recovered Source
+name: Build Runic Attunement 1.3.8.2 Public Source
 
 on:
   push:
+    branches: [main, 'release/**', 'test/**']
   pull_request:
   workflow_dispatch:
 
@@ -18,35 +19,59 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.8'
+      - name: Verify confirmed popup implementation unchanged
+        shell: bash
+        run: |
+          test "$(git hash-object src/main/java/dev/runicattunement/grimoire/RunicGrimoireUi.java)" = "f4640bcda54618937967b0029b1bc110d2220303"
+          test "$(git hash-object src/main/java/dev/runicattunement/grimoire/RunicRefinedClassicUi.java)" = "a4bbbf4b5f56c92aec4c6c997211003660abffc1"
+          test "$(git hash-object src/main/java/dev/runicattunement/compat/RunicStoppedLifecycle.java)" = "2ee329d38dc64049516297f48da8f9f01e4a7dff"
       - name: Compile and package
-        run: gradle clean build --stacktrace
-      - name: Verify generated JAR metadata and lifecycle helper
+        run: gradle --no-daemon clean build --stacktrace
+      - name: Verify and prepare distributable JAR
         shell: bash
         run: |
           python3 - <<'PY'
-          import glob, json, zipfile
-          outputs = [
-              file for file in glob.glob('build/libs/*.jar')
-              if not file.endswith('-sources.jar') and not file.endswith('-dev.jar')
-          ]
-          assert outputs, 'No release JAR produced'
-          matched = []
-          for jar in outputs:
+          import glob, hashlib, json, os, shutil, zipfile
+          jars = [p for p in glob.glob('build/libs/*.jar') if not p.endswith(('-sources.jar', '-dev.jar'))]
+          target = []
+          for jar in jars:
               with zipfile.ZipFile(jar) as z:
                   if 'fabric.mod.json' not in z.namelist():
                       continue
                   metadata = json.loads(z.read('fabric.mod.json'))
                   if metadata.get('id') != 'runic_attunement':
                       continue
-                  assert metadata.get('version') == '1.3.8.1', metadata
-                  assert 'dev/runicattunement/compat/RunicStoppedLifecycle.class' in z.namelist()
-                  assert 'dev/runicattunement/compat/RunicCompatibility.class' in z.namelist()
-                  assert z.testzip() is None
-                  matched.append(jar)
-          assert matched, 'Missing correctly versioned Runic 1.3.8.1 JAR'
-          print('Verified recovered-source build:', *matched)
+                  assert metadata['version'] == '1.3.8.2', metadata
+                  assert z.testzip() is None, 'Corrupt JAR entry'
+                  names = set(z.namelist())
+                  for required in (
+                      'dev/runicattunement/compat/RunicStoppedLifecycle.class',
+                      'dev/runicattunement/compat/RunicCompatibility.class',
+                      'dev/runicattunement/grimoire/RunicRefinedClassicUi.class',
+                      'dev/runicattunement/grimoire/RunicGrimoireUi.class',
+                  ):
+                      assert required in names, required
+                  refined = z.read('dev/runicattunement/grimoire/RunicRefinedClassicUi.class')
+                  grimoire = z.read('dev/runicattunement/grimoire/RunicGrimoireUi.class')
+                  assert b'renderLateInfo' in refined, 'Late refined popup method missing'
+                  assert b'infoPopupOpen' in refined, 'Cost-item suppression missing'
+                  assert b'renderLateInfo' in grimoire, 'Late popup dispatch missing'
+                  target.append(jar)
+          assert len(target) == 1, target
+          source = open('src/main/java/dev/runicattunement/grimoire/RunicRefinedClassicUi.java', encoding='utf-8').read()
+          assert 'int left = ax(screen);' in source and 'int top = ay(screen);' in source
+          assert 'int popupX = (672 - var11) / 2;' in source
+          assert 'int popupY = (390 - var12) / 2;' in source
+          assert 'popupX + var11 - 26, popupY + 8' in source
+          os.makedirs('build/release', exist_ok=True)
+          dst = 'build/release/Runic-Attunement-1.3.8.2-Fabric-1.20.1.jar'
+          shutil.copyfile(target[0], dst)
+          digest = hashlib.sha256(open(dst, 'rb').read()).hexdigest()
+          print('Verified 1.3.8.2 JAR:', dst, 'SHA256:', digest)
           PY
-      - uses: actions/upload-artifact@v4
+      - name: Upload release JAR
+        uses: actions/upload-artifact@v4
         with:
-          name: runic-attunement-1.3.8.1-recovered-source-build
-          path: build/libs/*.jar
+          name: runic-attunement-1.3.8.2
+          path: build/release/Runic-Attunement-1.3.8.2-Fabric-1.20.1.jar
+          if-no-files-found: error

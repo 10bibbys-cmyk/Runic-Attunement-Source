@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.3.8.2 — Enchantment information popup fix
+
+**Minecraft 1.20.1 · Fabric · Java 17+**
+
+### Fixed
+
+- Corrected the **[i] enchantment information popup** in the Refined Classic Attunement and Transmutation interface. Material-cost icons and the search field no longer draw over enchantment descriptions.
+- Rendered the information panel after the other interface layers, keeping its heading and description readable.
+- Centered the popup over the Runic Attunement interface and aligned the close button's hover area.
+- Temporarily hides the underlying material-cost icons while an information popup is open. The costs return as soon as the popup closes.
+
+### Unchanged
+
+- Runic Tablet progression, enchantment eligibility, material and XP costs, Attunement, Transmutation, Reforging and Unravel mechanics are unchanged.
+- The 1.3.8.1 server-shutdown lifecycle compatibility fix is retained.
+
+### Installation and verification
+
+- Replace **1.3.8.1** with **1.3.8.2**; do not install both versions.
+- The corrected popup positioning and readable description were confirmed in-game by the PotA maintainer.
+- This release is compiled from the recovered 1.3.8.x source tree, not a byte-identical continuation of the original 1.3.8.1 minimally patched production binary. Wider dedicated-server and multiplayer regression testing remains a separate verification step.
+
 # Runic Attunement 1.3.8.1 — Shutdown hotfix
 
 **Minecraft 1.20.1 · Fabric · Java 17+**

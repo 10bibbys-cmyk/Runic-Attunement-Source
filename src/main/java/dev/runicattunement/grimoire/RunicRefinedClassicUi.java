@@ -23,6 +23,7 @@ import net.minecraft.class_2960;
 import net.minecraft.class_310;
 import net.minecraft.class_327;
 import net.minecraft.class_332;
+import net.minecraft.class_4587;
 import net.minecraft.class_3414;
 import net.minecraft.class_7923;
 
@@ -580,7 +581,9 @@ public final class RunicRefinedClassicUi {
          centerBox(var1, var2, "INVENTORY", var5 + 246, var6 + 253, 177, 15, -3563153);
          drawFX(var0, var1, var5, var6);
          drawSwitchFx(var0, var1, var5, var6);
-         drawInfoPopup(var0, var1, var2, var5, var6);
+         // The information panel is rendered after HandledScreen finishes
+         // drawing slot items, widgets and hover tooltips. Drawing it here
+         // allows deferred item models to appear over the description.
          return true;
       } catch (Throwable var8) {
          error(var0, "foreground", var8);
@@ -816,6 +819,10 @@ public final class RunicRefinedClassicUi {
    }
 
    private static void drawCosts(Object var0, class_332 var1, class_327 var2, int var3, int var4, boolean var5) {
+      // Cost icons use the item renderer's own depth. While the [i] panel
+      // is open, do not draw them behind the modal, where they can show
+      // through even when the panel itself uses a high Z offset.
+      if (infoPopupOpen(var0)) return;
       List var6 = costs(var0, var5);
       if (var6.isEmpty()) {
          boolean var21 = var5 && (!selectedTransfer(var0).isEmpty() || !selectedCurses(var0).isEmpty());
@@ -988,6 +995,37 @@ public final class RunicRefinedClassicUi {
       }
    }
 
+   private static boolean infoPopupOpen(Object screen) {
+      Object state = call("state", screen);
+      Object enchant = get(state, "infoEnchant");
+      return enchant != null && !String.valueOf(enchant).isEmpty();
+   }
+
+   /**
+    * This is called at the end of RunicInscriptionScreen.render, not from
+    * the GUI foreground. Flush previously buffered layers first, then draw
+    * the popup at the highest GUI depth so search widgets and item tooltips
+    * cannot be composited over its heading or description.
+    */
+   public static void renderLateInfo(Object screen, class_332 context) {
+      if (!RunicGrimoireUi.active(screen) || !infoPopupOpen(screen)) return;
+      context.method_51452();
+      class_4587 matrices = context.method_51448();
+      matrices.method_22903();
+      try {
+         matrices.method_22904(0.0, 0.0, 600.0);
+         // End-of-render DrawContext uses absolute screen coordinates.
+         // The old foreground path was translated by HandledScreen's GUI
+         // origin; subtracting it here incorrectly placed the modal offscreen.
+         int left = ax(screen);
+         int top = ay(screen);
+         drawInfoPopup(screen, context, font(screen), left, top);
+         context.method_51452();
+      } finally {
+         matrices.method_22909();
+      }
+   }
+
    private static void drawInfoPopup(Object var0, class_332 var1, class_327 var2, int var3, int var4) {
       Object var5 = call("state", var0);
       String var6 = String.valueOf(get(var5, "infoEnchant"));
@@ -998,17 +1036,21 @@ public final class RunicRefinedClassicUi {
             var8 = "No description is available for this enchantment.";
          }
 
-         int var9 = var3 + 243;
-         int var10 = var4 + 98;
          short var11 = 394;
          short var12 = 167;
+         // The refined background is 672 x 390. Center the modal over
+         // the entire interface, not over the costs or enchantment panel.
+         int popupX = (672 - var11) / 2;
+         int popupY = (390 - var12) / 2;
+         int var9 = var3 + popupX;
+         int var10 = var4 + popupY;
          fill(var1, var9 + 3, var10 + 3, var11, var12, -1157627904);
          fill(var1, var9, var10, var11, var12, -15525600);
          border(var1, var9, var10, var11, var12, -6519718);
          fill(var1, var9 + 4, var10 + 4, var11 - 8, 23, -14341581);
          border(var1, var9 + 4, var10 + 4, var11 - 8, 23, -9937811);
          text(var1, var2, fitPixels(var2, var7, var11 - 58), var9 + 13, var10 + 12, -3563153);
-         button(var1, var2, "X", var9 + var11 - 26, var10 + 8, 18, 15, true, hover(var0, 243 + var11 - 26, 106, 18, 15), -5664921);
+         button(var1, var2, "X", var9 + var11 - 26, var10 + 8, 18, 15, true, hover(var0, popupX + var11 - 26, popupY + 8, 18, 15), -5664921);
          int var13 = var10 + 41;
          int var14 = 0;
          StringBuilder var15 = new StringBuilder();
